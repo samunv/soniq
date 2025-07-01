@@ -1,0 +1,72 @@
+.Auth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.logo-soniq {
+  display: flex;
+  align-items: center;
+  color: var(--primary-color);
+  font-size: 40px;
+}
+.logo-soniq h1 {
+  font-family: "Anton";
+}
+
+.login-title {
+  font-family: "inter-extrabold", sans-serif;
+  font-size: 40px;
+  color: white;
+  margin-top: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding: 30px;
+}
+
+.login-form input {
+  padding: 15px;
+  border: 1px solid var(--bg-color);
+  background-color: var(--bg-color);
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  width: 300px;
+  outline: none;
+}
+
+.login-form input:focus {
+  border: 1px solid var(--primary-color);
+}
+
+.btn-sign-in {
+  padding: 15px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-sign-in:hover {
+  background-color: rgba(92, 90, 226, 0.8);
+}
+
+.sign-up-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 20px;
+}
+.sign-up-link:hover {
+  text-decoration: underline;
+}

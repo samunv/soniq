@@ -1,0 +1,67 @@
+.Header {
+  width: calc(100% - 60px);
+  padding: 5px;
+  padding-inline: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.68);
+  position: fixed;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(40px); /* desenfoque del fondo */
+  -webkit-backdrop-filter: blur(12px); /* para Safari */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* sombreado suave */
+  z-index: 300;
+}
+
+.Header-logo {
+  display: flex;
+  align-items: center;
+  color: var(--primary-color);
+}
+
+.Header-logo h1 {
+  font-family: "Anton";
+  font-size: 40px;
+}
+
+.Navigation {
+  display: flex;
+  align-items: center;
+
+  justify-content: center;
+}
+
+.Header-link {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Header-link:hover {
+  color: var(--primary-color);
+  background-color: rgba(92, 90, 226, 0.1);
+}
+
+.Header-link.active {
+  color: var(--primary-color);
+}
+
+.profile-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: black;
+  object-fit: cover;
+}
+
+.Header-link:hover .profile-image {
+  border: 2px solid var(--primary-color);
+}

@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+:root {
+  --primary-color: #5c5ae2;
+  --bg-color: #1B191F;
+}
+
+@font-face {
+  font-family: "inter-extrabold";
+  src: url("/fonts/Inter/static/Inter_18pt-ExtraBold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Anton";
+  src: url("/fonts/Anton/Anton-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: "inter-bold";
+  src: url("/fonts/Inter/static/Inter_18pt-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "inter-medium";
+  src: url("/fonts/Inter/static/Inter_18pt-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "inter-medium";
+  background-color: black;
+  color: white;
+}
+
+h1 {
+  font-family: "inter-extrabold";
+}
+
+h2 {
+  font-family: "inter-bold";
+}
+
+
+button{
+  font-size: 15px;
+}
