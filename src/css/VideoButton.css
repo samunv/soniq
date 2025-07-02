@@ -1,10 +1,14 @@
 .video {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 10px;
-  width: 220px;
-  background-image: linear-gradient(to bottom, var(--bg-color), rgb(12, 12, 12));
-
+  width: 20%;
+  background-image: linear-gradient(
+    to bottom,
+    var(--bg-color),
+    rgb(12, 12, 12)
+  );
   padding: 15px;
   border-radius: 10px;
   cursor: pointer;
@@ -12,7 +16,7 @@
 }
 
 .video.playing {
-    background-image: none;
+  background-image: none;
   background-color: var(--primary-color);
 }
 
@@ -25,7 +29,8 @@
   background-color: #101012;
 }
 
-.video:hover .loader, .video:hover .video-info svg{
+.video:hover .loader,
+.video:hover .video-info svg {
   --c: no-repeat linear-gradient(var(--primary-color) 0 0);
   fill: var(--primary-color);
 }
@@ -55,6 +60,7 @@
 
 .video-info {
   flex: 1;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

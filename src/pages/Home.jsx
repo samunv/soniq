@@ -12,9 +12,11 @@ import { useVideo } from "../context/VideoContext";
 
 export default function Home() {
   const [typing, setTyping] = useState(false);
+  const [searchedValue, setSearchedValue] = useState("");
   const { videosList, setVideosList, setSelectedVideo, selectedVideo } =
     useVideo();
   const [randomVideosArr, setRandomVideosArr] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(8); // Mostrar 8 inicialmente
 
   useEffect(() => {
     setRandomVideosArr(shuffleArray(videos));
@@ -39,6 +41,10 @@ export default function Home() {
     return newArr;
   }
 
+  const loadMoreSongs = () => {
+    setVisibleCount((prev) => prev + 8);
+  };
+
   return (
     <div className="Home">
       <Header />
@@ -47,8 +53,12 @@ export default function Home() {
           <IoSearch size={25} />
           <input
             type="text"
-            placeholder="Search songs, artists, tags..."
+            placeholder="Search songs, artists..."
             onChange={(e) => handleChange(e)}
+            value={searchedValue}
+            onInput={(e) => {
+              setSearchedValue(e.target.value);
+            }}
           />
         </div>
 
@@ -76,7 +86,7 @@ export default function Home() {
             <div className="explore-section">
               <h2 style={{ fontFamily: "inter-extrabold" }}>Explore Music</h2>
               <div className="explore-list">
-                {randomVideosArr.map((video, index) => (
+                {randomVideosArr.slice(0, visibleCount).map((video, index) => (
                   <VideoButton
                     key={video.videoId}
                     videoId={video.videoId}
@@ -88,10 +98,40 @@ export default function Home() {
                   />
                 ))}
               </div>
+              <button onClick={loadMoreSongs} className="btn-more-songs">
+                View More Songs
+              </button>
             </div>
           </div>
         ) : (
-          ""
+          <div className="search-result-section">
+            <p style={{ marginTop: "15px", fontSize: "16px", color: "gray" }}>
+              Results for {searchedValue}
+            </p>
+            <div className="search-result-list">
+              {randomVideosArr
+                .filter(
+                  (video) =>
+                    video.title
+                      ?.toLowerCase()
+                      .includes(searchedValue.toLowerCase()) ||
+                    video.artist
+                      ?.toLowerCase()
+                      .includes(searchedValue.toLowerCase())
+                )
+                .map((video, index) => (
+                  <VideoButton
+                    key={video.videoId}
+                    videoId={video.videoId}
+                    title={video.title}
+                    artist={video.artist}
+                    onClick={() => setSelectedVideo(video)}
+                    selectedVideoId={selectedVideo?.videoId}
+                    videoIndex={index}
+                  />
+                ))}
+            </div>
+          </div>
         )}
       </Main>
     </div>
