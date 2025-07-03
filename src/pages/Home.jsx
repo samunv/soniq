@@ -9,6 +9,7 @@ import YouTubePlayer from "../layout/YoutubePlayer";
 import { videos } from "../videos";
 import VideoButton from "../components/VideoButton";
 import { useVideo } from "../context/VideoContext";
+import AdBanner from "../components/AdBanner";
 
 export default function Home() {
   const [typing, setTyping] = useState(false);
@@ -102,6 +103,10 @@ export default function Home() {
                 View More Songs
               </button>
             </div>
+
+            <div className="AdContainer">
+              <AdBanner />
+            </div>
           </div>
         ) : (
           <div className="search-result-section">
@@ -117,6 +122,9 @@ export default function Home() {
                       .includes(searchedValue.toLowerCase()) ||
                     video.artist
                       ?.toLowerCase()
+                      .includes(searchedValue.toLowerCase()) ||
+                    video.tags
+                      ?.map((tag) => tag.toLowerCase())
                       .includes(searchedValue.toLowerCase())
                 )
                 .map((video, index) => (

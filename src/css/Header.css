@@ -8,7 +8,7 @@
   background-color: rgba(0, 0, 0, 0.68);
   position: fixed;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(40px); /* desenfoque del fondo */
+  backdrop-filter: blur(60px); /* desenfoque del fondo */
   -webkit-backdrop-filter: blur(12px); /* para Safari */
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* sombreado suave */
   z-index: 300;

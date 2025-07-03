@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../../css/Auth.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-import { useState } from "react";
+import { useState} from "react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -13,7 +13,18 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ uid: user.uid, email: user.email })
+      );
+
       navigate("/home");
     } catch (error) {
       alert(error.message);

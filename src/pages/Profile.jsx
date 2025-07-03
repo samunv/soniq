@@ -7,11 +7,15 @@ import { auth } from "../firebase";
 import { useState } from "react";
 import Modal from "../components/Modal";
 import Overlay from "../components/Overlay";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 export default function Profile() {
   const userDataString = localStorage.getItem("user");
   const userData = userDataString ? JSON.parse(userDataString) : null;
   const [logoutModal, setLogoutModal] = useState(false);
+  const [editProfileModal, setEditProfileModal] = useState(false);
+  const [usernameInput, setUsernameInput] = useState(userData?.username || "");
 
   const handleLogout = async () => {
     try {
@@ -24,6 +28,22 @@ export default function Profile() {
       console.error("Logout error: ", error);
     }
   };
+
+  const handleSaveProfile = async (newUsername) => {
+    try {
+      const userRef = doc(db, "users", userData?.uid);
+
+      await updateDoc(userRef, {
+        username: newUsername,
+      });
+      const updatedUserData = { ...userData, username: newUsername };
+      localStorage.setItem("user", JSON.stringify(updatedUserData));
+      setEditProfileModal(false);
+    } catch (error) {
+      console.error("Error updating username: ", error);
+    }
+  };
+
   return (
     <div className="Profile">
       <Header />
@@ -40,7 +60,10 @@ export default function Profile() {
           </div>
         </div>
         <div className="buttons">
-          <button className="btn-profile edit">
+          <button
+            className="btn-profile edit"
+            onClick={() => setEditProfileModal(true)}
+          >
             Edit Profile
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +98,47 @@ export default function Profile() {
               text={"Are you sure you want to log out?"}
               onClose={() => setLogoutModal(false)}
               onAction={handleLogout}
+              onActionText={"Yes"}
             />
+            <Overlay />
+          </>
+        ) : (
+          ""
+        )}
+
+        {editProfileModal ? (
+          <>
+            <Modal
+              text={"Edit Profile"}
+              onClose={() => setEditProfileModal(false)}
+              onActionText={"Save"}
+              onAction={() => handleSaveProfile(usernameInput)}
+            >
+              <div className="input-label-column">
+                <label htmlFor="name-user" className="edit-profile-label">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  value={usernameInput}
+                  className="edit-profile-input"
+                  onChange={(e) => setUsernameInput(e.target.value)}
+                  id="name-user"
+                />
+              </div>
+
+              <div className="input-label-column">
+                {" "}
+                <label htmlFor="photo-user" className="edit-profile-label">
+                  Select a Photo
+                </label>
+                <input
+                  type="file"
+                  className="edit-profile-input"
+                  id="photo-user"
+                />
+              </div>
+            </Modal>
             <Overlay />
           </>
         ) : (
