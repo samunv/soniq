@@ -63,12 +63,13 @@ export default function Register() {
         }}
       >
         <h1 style={{ textAlign: "center", fontSize: "40px" }}>Create your</h1>
-        <img src="/img/soniq-logo.png" alt="" width={100} />
+        <img src="img/Soniq (2).png" alt="" width={100} />
         <h1
           style={{
             textAlign: "center",
             fontSize: "40px",
-            color: "var(--primary-color)",
+            color:"#ff6f61"
+            
           }}
         >
           Account

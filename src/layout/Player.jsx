@@ -17,6 +17,8 @@ export default function Player({
   title,
   videoPic,
   videosListForPlay,
+  videoIndex,
+  selectedTag,
 }) {
   const playerRef = useRef(null);
   const [currentTime, setCurrentTime] = useState(0);
@@ -29,12 +31,13 @@ export default function Player({
   // const navigate = useNavigate();
   // const { pathname } = useLocation();
 
-  const { videosList, videoIndex, setVideoIndex, setSelectedVideo } =
-    useVideo();
+  const { setVideoIndex, setSelectedVideo } = useVideo();
 
   useEffect(() => {
-    console.log("PLAYER > VideosList:", videosList);
-  }, [videosListForPlay]);
+    console.log("PLAYER > VideosList:", videosListForPlay);
+    console.log("VideoIndex Player>> :", videoIndex);
+    console.log("VideoListLenght: ", videosListForPlay.length);
+  }, [videosListForPlay, videoIndex]);
 
   const opts = {
     height: "80",
@@ -95,19 +98,21 @@ export default function Player({
 
   const nextVideo = () => {
     if (randomPlaying) {
-      const newIndex = Math.floor(Math.random() * videosList.length);
+      const newIndex = Math.floor(Math.random() * videosListForPlay.length);
       setVideoIndex(newIndex);
-      setSelectedVideo(videosList[newIndex]);
+      setSelectedVideo(videosListForPlay[newIndex]);
     } else if (repeatVideo) {
       if (playerRef.current) {
-        playerRef.current.seekTo(0); // vuelve al segundo 0
-        playerRef.current.playVideo(); // lo reproduce
+        playerRef.current.seekTo(0);
+        playerRef.current.playVideo();
       }
     } else {
-      if (videoIndex < videosList.length - 1) {
-        const newIndex = videoIndex + 1;
+      const newIndex = videoIndex + 1;
+      if (newIndex < videosListForPlay.length) {
         setVideoIndex(newIndex);
-        setSelectedVideo(videosList[newIndex]);
+        setSelectedVideo(videosListForPlay[newIndex]);
+      } else {
+        console.log("Fin de la lista.");
       }
     }
   };
@@ -116,7 +121,7 @@ export default function Player({
     if (videoIndex > 0) {
       const newIndex = videoIndex - 1;
       setVideoIndex(newIndex);
-      setSelectedVideo(videosList[newIndex]);
+      setSelectedVideo(videosListForPlay[newIndex]);
     }
   };
 
@@ -178,6 +183,15 @@ export default function Player({
           <div className="track-info">
             <strong>{title}</strong>
             <p style={{ color: "lightgray" }}>{artist}</p>
+            <p>
+              {selectedTag !== null ? (
+                <p style={{ color: selectedTag.tagColor }} className="tag-info">
+                  {selectedTag.tagName}
+                </p>
+              ) : (
+                ""
+              )}
+            </p>
           </div>
         </div>
 
@@ -259,17 +273,23 @@ export default function Player({
                 <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z" />
               </svg>
             </li>
-            {/* <li>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#FFFFFF"
-              >
-                <path d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
-              </svg>
-            </li> */}
+
+            {videosListForPlay.length > 0 ? (
+              <li>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#FFFFFF"
+                >
+                  <path d="M640-160q-50 0-85-35t-35-85q0-50 35-85t85-35q11 0 21 1.5t19 6.5v-328h200v80H760v360q0 50-35 85t-85 35ZM120-320v-80h320v80H120Zm0-160v-80h480v80H120Zm0-160v-80h480v80H120Z" />
+                </svg>
+              </li>
+            ) : (
+              ""
+            )}
+
             <li onClick={handleArtView}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -319,7 +339,7 @@ export default function Player({
                 type="range"
                 min="0"
                 max="100"
-                value={volume}
+                value={volume ?? ""}
                 onChange={handleVolumeChange}
                 className="volume-range"
                 style={{

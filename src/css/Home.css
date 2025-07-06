@@ -82,19 +82,44 @@
   gap: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
+  color: gray;
 }
 
-.tag img {
+.tag-img-wrapper {
+  width: 75px;
+  height: 75px;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.svg-container svg {
+  width: 50px;
+  height: 50px;
+}
+
+/* .tag-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   transition: all 0.3s ease;
+  border-radius: 50%;
+} */
+
+.tag-img-wrapper:hover {
+  background-color: var(--hover-color);
 }
 
-.tag:hover img {
-  transform: translateY(-5px);
+.tag-img-wrapper:hover svg{
+  fill: white;
 }
 
 .tag p {
   font-size: 14px;
-  font-family: "inter-bold";
 }
 
 .explore-list {

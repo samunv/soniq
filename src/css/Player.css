@@ -108,6 +108,16 @@
 
 .track-info {
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 90%;
+  gap: 1px;
+  
+}
+
+.ArtViewPlayer .track-info{
+  align-items: center;
 }
 
 .track-info strong {
@@ -185,7 +195,7 @@ input[type="range"] {
 
 /* track */
 input[type="range"]::-webkit-slider-runnable-track {
-  height: 5px;
+  height: 3px;
   background: linear-gradient(
     to right,
     var(--primary-color) var(--progress),
@@ -202,7 +212,7 @@ input[type="range"]::-webkit-slider-thumb {
   background: var(--primary-color);
   border-radius: 50%;
   cursor: pointer;
-  margin-top: -3px;
+  margin-top: -4px;
   position: relative;
   z-index: 1;
 }
@@ -299,4 +309,11 @@ input[type="range"]::-webkit-slider-thumb {
 
 .cross-icon:hover{
   opacity: 0.7;
+}
+
+.tag-info{
+}
+
+.ArtViewPlayer .tag-info{
+  display: none;
 }

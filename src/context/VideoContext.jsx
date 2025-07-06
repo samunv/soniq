@@ -9,6 +9,7 @@ export function VideoProvider({ children }) {
   });
   const [videosList, setVideosList] = useState([]);
   const [videoIndex, setVideoIndex] = useState(0);
+  const [selectedTag, setSelectedTag] = useState({});
 
   useEffect(() => {
     if (selectedVideo) {
@@ -27,6 +28,8 @@ export function VideoProvider({ children }) {
         setVideosList,
         videoIndex,
         setVideoIndex,
+        selectedTag,
+        setSelectedTag,
       }}
     >
       {children}

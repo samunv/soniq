@@ -86,7 +86,7 @@ export default function App() {
 }
 
 function VideoPlayerWrapper() {
-  const { selectedVideo, videosList } = useVideo();
+  const { selectedVideo, videosList, videoIndex, selectedTag } = useVideo();
    const location = useLocation();
 
   // No mostrar player en login ni registro
@@ -101,6 +101,8 @@ function VideoPlayerWrapper() {
       title={selectedVideo.title}
       videoPic={`https://img.youtube.com/vi/${selectedVideo.videoId}/mqdefault.jpg`}
       videosListForPlay={videosList}
+      videoIndex={videoIndex}
+      selectedTag={selectedTag}
     />
   );
 }

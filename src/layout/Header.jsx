@@ -17,7 +17,7 @@ export default function Header() {
       <div className="Header-logo">
         <Link to="/home">
           <img
-            src="/img/soniq-logo.png"
+            src="img/Soniq__1_-removebg-preview.png"
             alt=""
             width={80}
             className="soniq-logo"

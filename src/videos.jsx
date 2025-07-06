@@ -70,7 +70,7 @@ export const videos = [
     title: 'Lil Baby "Freestyle" Official Music Video',
     videoId: "MHryuYVyHhk",
     artist: "Lil Baby Official",
-    tags: [""],
+    tags: ["Workout"],
   },
   {
     title: "FloyyMenor - CHICA ATRACTIVA",

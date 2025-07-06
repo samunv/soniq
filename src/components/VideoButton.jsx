@@ -8,13 +8,8 @@ export default function VideoButton({
   artist,
   onClick,
   selectedVideoId,
-  videoIndex,
 }) {
-  const { setVideoIndex } = useVideo();
 
-  if (selectedVideoId === videoId) {
-    setVideoIndex(videoIndex);
-  }
   return (
     <div
       className={selectedVideoId === videoId ? "video playing" : "video"}

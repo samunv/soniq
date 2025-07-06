@@ -8,7 +8,7 @@
   background-color: rgba(0, 0, 0, 0.68);
   position: fixed;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(60px); /* desenfoque del fondo */
+  backdrop-filter: blur(30px); /* desenfoque del fondo */
   -webkit-backdrop-filter: blur(12px); /* para Safari */
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* sombreado suave */
   z-index: 300;
@@ -47,7 +47,7 @@
 
 .Header-link:hover {
   color: var(--primary-color);
-  background-color: rgba(92, 90, 226, 0.1);
+  background-color: #5c5ae25a;
 }
 
 .Header-link.active {

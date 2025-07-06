@@ -4,31 +4,35 @@ import "../css/Home.css";
 import { IoSearch } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { tags } from "../tags";
-import { useNavigate } from "react-router";
-import YouTubePlayer from "../layout/YoutubePlayer";
 import { videos } from "../videos";
 import VideoButton from "../components/VideoButton";
 import { useVideo } from "../context/VideoContext";
 import AdBanner from "../components/AdBanner";
+import DOMPurify from "dompurify";
 
 export default function Home() {
   const [typing, setTyping] = useState(false);
   const [searchedValue, setSearchedValue] = useState("");
-  const { videosList, setVideosList, setSelectedVideo, selectedVideo } =
-    useVideo();
+  const {
+    setVideosList,
+    setSelectedVideo,
+    selectedVideo,
+    setVideoIndex,
+    setSelectedTag,
+  } = useVideo();
   const [randomVideosArr, setRandomVideosArr] = useState([]);
-  const [visibleCount, setVisibleCount] = useState(8); // Mostrar 8 inicialmente
+  const [visibleCount, setVisibleCount] = useState(8); 
 
   useEffect(() => {
     setRandomVideosArr(shuffleArray(videos));
   }, [videos]);
 
-  useEffect(() => {
-    setVideosList(randomVideosArr);
-    console.log("HOME > VideosList: " + randomVideosArr);
-  }, [randomVideosArr]);
+  // useEffect(() => {
+  //   // setVideosList(randomVideosArr);
+  //   console.log("HOME > VideosList: " + randomVideosArr);
+  // }, [randomVideosArr]);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const handleChange = (e) => {
     setTyping(e.target.value !== "");
   };
@@ -68,18 +72,35 @@ export default function Home() {
             <div className="tag-clasification">
               {tags.map((tag, index) => (
                 <div
-                  className="tag"
                   key={index}
+                  className="tag"
+                  style={{ "--hover-color": tag.color }}
                   onClick={() => {
-                    navigate(`/tag/${tag.name}`);
+                    const filteredTagVideoList = videos.filter((video) =>
+                      video.tags?.some((t) => t === tag.name)
+                    );
+                    const randomVideosListofTag =
+                      shuffleArray(filteredTagVideoList);
+                    setVideosList(randomVideosListofTag);
+                    setSelectedVideo(randomVideosListofTag[0]);
+                    setSelectedTag({ tagName: tag.name, tagColor: tag.color });
+                    setVideoIndex(0);
                   }}
                 >
-                  <img
-                    src={"img/" + tag.img}
-                    alt={tag.name}
-                    style={{ width: "70px", borderRadius: "50%" }}
-                  />
-                  <p>#{tag.name}</p>
+                  <div className="tag-img-wrapper">
+                    {/* <img
+                      src={"img/" + tag.img}
+                      alt={tag.name}
+                      className="tag-img"
+                    /> */}
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(tag.svgIcon),
+                      }}
+                      className="svg-container"
+                    ></div>
+                  </div>
+                  <p>{tag.name}</p>
                 </div>
               ))}
             </div>
@@ -93,9 +114,13 @@ export default function Home() {
                     videoId={video.videoId}
                     title={video.title}
                     artist={video.artist}
-                    onClick={() => setSelectedVideo(video)}
+                    onClick={() => {
+                      setSelectedVideo(video);
+                      setVideosList(randomVideosArr);
+                      setVideoIndex(index);
+                      setSelectedTag({});
+                    }}
                     selectedVideoId={selectedVideo?.videoId}
-                    videoIndex={index}
                   />
                 ))}
               </div>
@@ -127,15 +152,17 @@ export default function Home() {
                       ?.map((tag) => tag.toLowerCase())
                       .includes(searchedValue.toLowerCase())
                 )
-                .map((video, index) => (
+                .map((video) => (
                   <VideoButton
                     key={video.videoId}
                     videoId={video.videoId}
                     title={video.title}
                     artist={video.artist}
-                    onClick={() => setSelectedVideo(video)}
+                    onClick={() => {
+                      setSelectedVideo(video);
+                      setSelectedTag({});
+                    }}
                     selectedVideoId={selectedVideo?.videoId}
-                    videoIndex={index}
                   />
                 ))}
             </div>
