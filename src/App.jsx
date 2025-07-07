@@ -5,13 +5,14 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import TagPage from "./pages/TagPage";
 import Favorites from "./pages/Favorites";
+import Queue from "./pages/Queue";
 import { VideoProvider } from "./context/VideoContext";
 import { useVideo } from "./context/VideoContext";
 import Player from "./layout/Player";
 import Header from "./layout/Header";
 import PrivateRoute from "./routers/PrivateRouter";
 import PublicRoute from "./routers/PublicRouter";
-import "./App.css"
+import "./App.css";
 
 export default function App() {
   return (
@@ -77,7 +78,16 @@ export default function App() {
                 </PrivateRoute>
               }
             />
+            <Route
+              path="/queue"
+              element={
+                <PrivateRoute>
+                  <Queue />
+                </PrivateRoute>
+              }
+            />
           </Routes>
+
           <VideoPlayerWrapper />
         </div>
       </div>
@@ -87,22 +97,26 @@ export default function App() {
 
 function VideoPlayerWrapper() {
   const { selectedVideo, videosList, videoIndex, selectedTag } = useVideo();
-   const location = useLocation();
+  const location = useLocation();
 
   // No mostrar player en login ni registro
-  if (location.pathname === "/" || location.pathname === "/register") return null;
+  if (location.pathname === "/" || location.pathname === "/register")
+    return null;
 
   if (!selectedVideo) return null;
 
   return (
-    <Player
-      videoId={selectedVideo.videoId}
-      artist={selectedVideo.artist}
-      title={selectedVideo.title}
-      videoPic={`https://img.youtube.com/vi/${selectedVideo.videoId}/mqdefault.jpg`}
-      videosListForPlay={videosList}
-      videoIndex={videoIndex}
-      selectedTag={selectedTag}
-    />
+    <>
+      <Player
+        videoId={selectedVideo.videoId}
+        artist={selectedVideo.artist}
+        title={selectedVideo.title}
+        videoPic={`https://img.youtube.com/vi/${selectedVideo.videoId}/mqdefault.jpg`}
+        videosListForPlay={videosList}
+        videoIndex={videoIndex}
+        selectedTag={selectedTag}
+      />
+      
+    </>
   );
 }

@@ -9,8 +9,10 @@ import VideoButton from "../components/VideoButton";
 import { useVideo } from "../context/VideoContext";
 import AdBanner from "../components/AdBanner";
 import DOMPurify from "dompurify";
+import { Navigate, useNavigate } from "react-router";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [typing, setTyping] = useState(false);
   const [searchedValue, setSearchedValue] = useState("");
   const {
@@ -19,9 +21,12 @@ export default function Home() {
     selectedVideo,
     setVideoIndex,
     setSelectedTag,
+    setVideosListName
   } = useVideo();
   const [randomVideosArr, setRandomVideosArr] = useState([]);
-  const [visibleCount, setVisibleCount] = useState(8); 
+  const [visibleCount, setVisibleCount] = useState(8);
+
+  const [searchedVideoList, setSearchedVideoList] = useState([]);
 
   useEffect(() => {
     setRandomVideosArr(shuffleArray(videos));
@@ -35,6 +40,16 @@ export default function Home() {
   // const navigate = useNavigate();
   const handleChange = (e) => {
     setTyping(e.target.value !== "");
+    setSearchedVideoList(
+      randomVideosArr.filter(
+        (video) =>
+          video.title?.toLowerCase().includes(searchedValue.toLowerCase()) ||
+          video.artist?.toLowerCase().includes(searchedValue.toLowerCase()) ||
+          video.tags
+            ?.map((tag) => tag.toLowerCase())
+            .includes(searchedValue.toLowerCase())
+      )
+    );
   };
 
   function shuffleArray(array) {
@@ -85,6 +100,8 @@ export default function Home() {
                     setSelectedVideo(randomVideosListofTag[0]);
                     setSelectedTag({ tagName: tag.name, tagColor: tag.color });
                     setVideoIndex(0);
+                    setVideosListName(tag.name + " List")
+                    navigate("/queue")
                   }}
                 >
                   <div className="tag-img-wrapper">
@@ -119,6 +136,7 @@ export default function Home() {
                       setVideosList(randomVideosArr);
                       setVideoIndex(index);
                       setSelectedTag({});
+                      setVideosListName("Explore Section List")
                     }}
                     selectedVideoId={selectedVideo?.videoId}
                   />
@@ -139,32 +157,21 @@ export default function Home() {
               Results for {searchedValue}
             </p>
             <div className="search-result-list">
-              {randomVideosArr
-                .filter(
-                  (video) =>
-                    video.title
-                      ?.toLowerCase()
-                      .includes(searchedValue.toLowerCase()) ||
-                    video.artist
-                      ?.toLowerCase()
-                      .includes(searchedValue.toLowerCase()) ||
-                    video.tags
-                      ?.map((tag) => tag.toLowerCase())
-                      .includes(searchedValue.toLowerCase())
-                )
-                .map((video) => (
-                  <VideoButton
-                    key={video.videoId}
-                    videoId={video.videoId}
-                    title={video.title}
-                    artist={video.artist}
-                    onClick={() => {
-                      setSelectedVideo(video);
-                      setSelectedTag({});
-                    }}
-                    selectedVideoId={selectedVideo?.videoId}
-                  />
-                ))}
+              {searchedVideoList.map((video) => (
+                <VideoButton
+                  key={video.videoId}
+                  videoId={video.videoId}
+                  title={video.title}
+                  artist={video.artist}
+                  onClick={() => {
+                    setSelectedVideo(video);
+                    setSelectedTag({});
+                    setVideosList(searchedVideoList);
+                    setVideosListName("Searched Videos")
+                  }}
+                  selectedVideoId={selectedVideo?.videoId}
+                />
+              ))}
             </div>
           </div>
         )}

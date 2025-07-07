@@ -10,6 +10,9 @@ export function VideoProvider({ children }) {
   const [videosList, setVideosList] = useState([]);
   const [videoIndex, setVideoIndex] = useState(0);
   const [selectedTag, setSelectedTag] = useState({});
+  const [videosListName, setVideosListName] = useState("");
+  const [currentVideoId, setCurrentVideoId] = useState(null);
+  const [playlistData, setPlayListData] = useState({});
 
   useEffect(() => {
     if (selectedVideo) {
@@ -17,6 +20,7 @@ export function VideoProvider({ children }) {
     } else {
       localStorage.removeItem("selectedVideo");
     }
+    setCurrentVideoId(selectedVideo.videoId);
   }, [selectedVideo]);
 
   return (
@@ -30,6 +34,12 @@ export function VideoProvider({ children }) {
         setVideoIndex,
         selectedTag,
         setSelectedTag,
+        videosListName,
+        setVideosListName,
+        currentVideoId,
+        setCurrentVideoId,
+        playlistData,
+        setPlayListData,
       }}
     >
       {children}

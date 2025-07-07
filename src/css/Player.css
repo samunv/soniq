@@ -317,3 +317,13 @@ input[type="range"]::-webkit-slider-thumb {
 .ArtViewPlayer .tag-info{
   display: none;
 }
+
+.queue-icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.queue-icon.active svg{
+  fill:var(--primary-color);
+}
