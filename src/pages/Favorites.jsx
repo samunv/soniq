@@ -6,7 +6,7 @@ export default function Favorites() {
     <div>
       <Header />
       <Main>
-        <h2>My Favorites</h2>
+        <h2>Your Library</h2>
       </Main>
     </div>
   );

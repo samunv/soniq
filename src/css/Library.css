@@ -1,0 +1,49 @@
+.Library {
+  position: fixed;
+  width: calc(250px - 60px);
+  padding: 30px;
+   background-image: linear-gradient(
+    to bottom,
+    var(--bg-color),
+    rgb(12, 12, 12)
+  );
+  border-top-right-radius:10px ;
+  height: calc(100vh - 90px);
+  top: 80px;
+  left: 0;
+  overflow-y: auto;
+}
+
+.LibraryColumn {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  gap: 15px;
+}
+
+.PlaylistContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.Square {
+  background-color: black;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.PlaylistContainer:hover {
+ color: var(--primary-color);
+}
+
+
+.PlaylistContainer.likedSongs .Square{
+    background-color: #8d8bff;
+}

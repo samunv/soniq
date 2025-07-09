@@ -1,11 +1,9 @@
 .App {
   display: flex;
   justify-content: space-between;
-
   overflow-x: hidden;
 }
 
 .left-column {
-
   padding-bottom: 100px;
 }

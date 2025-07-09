@@ -113,10 +113,9 @@
   align-items: flex-start;
   width: 90%;
   gap: 1px;
-  
 }
 
-.ArtViewPlayer .track-info{
+.ArtViewPlayer .track-info {
   align-items: center;
 }
 
@@ -145,13 +144,13 @@
 }
 
 .ArtViewPlayer .Controller {
-  width:calc(600px - 40px);
+  width: calc(600px - 40px);
   gap: 5px;
   padding: 20px;
   border-radius: 20px;
   background-color: rgba(255, 255, 255, 0.027);
   backdrop-filter: blur(40px);
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.283);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.283);
 }
 
 .Controller-buttons {
@@ -219,7 +218,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .volume-range {
   appearance: none;
-    width: 100px !important;
+  width: 100px !important;
   height: 4px;
   background: linear-gradient(
     to right,
@@ -287,7 +286,7 @@ input[type="range"]::-webkit-slider-thumb {
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap:2px;
+  gap: 2px;
 }
 
 .third-column-row li:hover {
@@ -298,7 +297,7 @@ input[type="range"]::-webkit-slider-thumb {
   justify-content: center;
 }
 
-.cross-icon{
+.cross-icon {
   width: 35px;
   height: 35px;
   cursor: pointer;
@@ -307,23 +306,40 @@ input[type="range"]::-webkit-slider-thumb {
   top: -20px;
 }
 
-.cross-icon:hover{
+.cross-icon:hover {
   opacity: 0.7;
 }
 
-.tag-info{
+.tag-info {
 }
 
-.ArtViewPlayer .tag-info{
+.ArtViewPlayer .tag-info {
   display: none;
 }
 
-.queue-icon{
+.queue-icon {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.queue-icon.active svg{
-  fill:var(--primary-color);
+.queue-icon.active svg {
+  fill: var(--primary-color);
+}
+
+.ArtViewPlayer .listNameLink {
+  display: none;
+}
+.listNameLink {
+  cursor: pointer;
+  color: gray;
+}
+
+.listNameLink:hover {
+  text-decoration: underline;
+}
+
+.artistNameLink:hover{
+  cursor: pointer;
+  text-decoration: underline;
 }

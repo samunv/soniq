@@ -1,3 +1,5 @@
+
+
 export const videos = [
   {
     title: "God's Plan",
@@ -102,13 +104,14 @@ export const videos = [
     artist: "Bad Bunny, Jhay Cortez",
     tags: ["Chill", "Focus", "Workout", "Romantic"],
   },
-    {
-    title: "Lambo4oe - Self Esteem (Official Music Video) ft. NLE Choppa [Kisses For Me]",
+  {
+    title:
+      "Lambo4oe - Self Esteem (Official Music Video) ft. NLE Choppa [Kisses For Me]",
     videoId: "9OjNQSAlaqU",
     artist: "Lambo4oe",
     tags: ["Chill", "Focus", "Workout", "Romantic"],
   },
-      {
+  {
     title: "PNL - Au DD [Clip Officiel]",
     videoId: "BtyHYIpykN0",
     artist: "PNL",
@@ -144,18 +147,46 @@ export const videos = [
     artist: "FloyyMenor",
     tags: ["Chill", "Party", "Romantic"],
   },
-
   {
-    title: "Star Wars Main Theme",
-    videoId: "nXnW8QEeGDo",
-    artist: "John Williams",
-    tags: ["Cinematic, Chill, Focus"],
+    title: "Anuel AA - Tu No Lo Amas",
+    videoId: "YmThOnFXM0E",
+    artist: "Anuel AA",
+    tags: ["Chill", "Party", "Workout"],
   },
-
   {
-    title: "He's a Pirate",
-    videoId: "KsimX_A2Uyo",
-    artist: "Pirates of the Caribbean",
-    tags: ["Cinematic, Chill, Focus"],
+    title: "La Soledad Aburre Pero No Traiciona - Beny JR",
+    videoId: "xhr5za8HV8Y",
+    artist: "Beny Jr",
+    tags: ["Chill", "Workout", "Focus"],
+  },
+  {
+    title: "Central Cee - Doja (Official Music Video)",
+    videoId: "_VuJA-VQRcY",
+    artist: "Lyrical Lemonade",
+    tags: ["Chill", "Workout", "Focus"],
+  },
+  {
+    title: "KAROL G - Si Antes Te Hubiera Conocido | Coke Studio",
+    videoId: "QCZZwZQ4qNs",
+    artist: "KAROL G",
+    tags: ["Chill", "Workout", "Focus", "Romantic"],
+  },
+  {
+    title: "Pop Smoke - For The Night (Audio) ft. Lil Baby, DaBaby",
+    videoId: "Q9pjm4cNsfc",
+    artist: "POP SMOKE",
+    tags: ["Chill", "Workout", "Focus", "Romantic", "Party"],
+  },
+  {
+    title: "Travis Scott - FE!N ft. Playboi Carti",
+    videoId: "B9synWjqBn8",
+    artist: "Travis Scott",
+    tags: ["Chill", "Workout", "Focus", "Romantic", "Party", "Fein"],
+  },
+  {
+    title: "Lil Tecca - Ransom",
+    videoId: "1XzY2ij_vL4",
+    artist: "Lyrical Lemonade",
+    tags: ["Chill", "Workout", "Focus", "Romantic", "Party"],
   },
 ];

@@ -70,14 +70,7 @@ export default function App() {
                 </PrivateRoute>
               }
             />
-            <Route
-              path="/favs"
-              element={
-                <PrivateRoute>
-                  <Favorites />
-                </PrivateRoute>
-              }
-            />
+           
             <Route
               path="/queue"
               element={

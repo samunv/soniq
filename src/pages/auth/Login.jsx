@@ -34,7 +34,7 @@ export default function Login() {
   return (
     <div className="Auth">
       <div className="logo-soniq">
-        <img src="img/Soniq (2).png" alt="" width={230} />
+        <img src="img/soniq-logo.png" alt="" width={230} />
       </div>
 
       <form action="" className="login-form">

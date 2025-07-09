@@ -4,15 +4,17 @@ import "../css/Home.css";
 import { IoSearch } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { tags } from "../tags";
-import { videos } from "../videos";
 import VideoButton from "../components/VideoButton";
 import { useVideo } from "../context/VideoContext";
 import AdBanner from "../components/AdBanner";
 import DOMPurify from "dompurify";
 import { Navigate, useNavigate } from "react-router";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase"; // Asegúrate de que este path sea correcto
 
 export default function Home() {
   const navigate = useNavigate();
+  const [videos, setVideos] = useState([]);
   const [typing, setTyping] = useState(false);
   const [searchedValue, setSearchedValue] = useState("");
   const {
@@ -21,7 +23,7 @@ export default function Home() {
     selectedVideo,
     setVideoIndex,
     setSelectedTag,
-    setVideosListName
+    setVideosListName,
   } = useVideo();
   const [randomVideosArr, setRandomVideosArr] = useState([]);
   const [visibleCount, setVisibleCount] = useState(8);
@@ -29,8 +31,20 @@ export default function Home() {
   const [searchedVideoList, setSearchedVideoList] = useState([]);
 
   useEffect(() => {
-    setRandomVideosArr(shuffleArray(videos));
-  }, [videos]);
+    const fetchVideos = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "videos"));
+        const fbVideoList = querySnapshot.docs.map((doc) => doc.data());
+        setRandomVideosArr(shuffleArray(fbVideoList));
+        setVideos(fbVideoList);
+      } catch (error) {
+        console.error("Error fetching videos: ", error);
+      }
+    };
+
+    fetchVideos();
+  }, []);
+
 
   // useEffect(() => {
   //   // setVideosList(randomVideosArr);
@@ -100,8 +114,8 @@ export default function Home() {
                     setSelectedVideo(randomVideosListofTag[0]);
                     setSelectedTag({ tagName: tag.name, tagColor: tag.color });
                     setVideoIndex(0);
-                    setVideosListName(tag.name + " List")
-                    navigate("/queue")
+                    setVideosListName("#" + tag.name + " List");
+                    navigate("/queue");
                   }}
                 >
                   <div className="tag-img-wrapper">
@@ -136,7 +150,7 @@ export default function Home() {
                       setVideosList(randomVideosArr);
                       setVideoIndex(index);
                       setSelectedTag({});
-                      setVideosListName("Explore Section List")
+                      setVideosListName("Explore Section List");
                     }}
                     selectedVideoId={selectedVideo?.videoId}
                   />
@@ -167,7 +181,7 @@ export default function Home() {
                     setSelectedVideo(video);
                     setSelectedTag({});
                     setVideosList(searchedVideoList);
-                    setVideosListName("Searched Videos")
+                    setVideosListName("Searched Videos");
                   }}
                   selectedVideoId={selectedVideo?.videoId}
                 />

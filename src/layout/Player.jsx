@@ -10,7 +10,10 @@ import { FaRandom } from "react-icons/fa";
 import { FaRepeat } from "react-icons/fa6";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { NavLink, useNavigate } from "react-router";
-// import { useNavigate, useLocation } from "react-router";
+// import { useNavigate, useLocation } from "react-router";ç
+import { db } from "../firebase";
+import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { FaHeart } from "react-icons/fa";
 
 export default function Player({
   videoId,
@@ -29,18 +32,35 @@ export default function Player({
   const [repeatVideo, setRepeatVideo] = useState(false);
   const [artView, setArtView] = useState(false);
   const [volume, setVolume] = useState(70);
+  const [isLiked, setIsLiked] = useState(false);
+  const userDataString = localStorage.getItem("user");
+  const userData = userDataString ? JSON.parse(userDataString) : null;
+  const userLikedSongs = userData.likedSongs;
   // const navigate = useNavigate();
   // const { pathname } = useLocation();
 
   const navigate = useNavigate();
 
-  const { setVideoIndex, setSelectedVideo } = useVideo();
+  const { setVideoIndex, setSelectedVideo, videosListName } = useVideo();
 
   useEffect(() => {
     console.log("PLAYER > VideosList:", videosListForPlay);
     console.log("VideoIndex Player>> :", videoIndex);
     console.log("VideoListLenght: ", videosListForPlay.length);
   }, [videosListForPlay, videoIndex]);
+
+  // useEffect(() => {
+  //   setLikedSongsArray(userData.likedSongs);
+  //   console.log(likedSongsArray);
+  //   const likedSong = likedSongsArray.includes(videoId);
+  //   if(likedSong){
+  //     setIsLiked(true);
+  //   }
+  // }, [likedSongsArray]);
+
+  useEffect(() => {
+    setIsLiked(userData.likedSongs.includes(videoId));
+  }, [userData.likedSongs, videoId]);
 
   const opts = {
     height: "80",
@@ -115,9 +135,9 @@ export default function Player({
         setVideoIndex(newIndex);
         setSelectedVideo(videosListForPlay[newIndex]);
       } else {
-        if(videosListForPlay.length > 0){
-        setVideoIndex(0);
-        setSelectedVideo(videosListForPlay[0]);
+        if (videosListForPlay.length > 0) {
+          setVideoIndex(0);
+          setSelectedVideo(videosListForPlay[0]);
         }
       }
     }
@@ -149,6 +169,34 @@ export default function Player({
     setVolume(newVolume);
     if (playerRef.current && playerRef.current.setVolume) {
       playerRef.current.setVolume(newVolume); // Establece el volumen del reproductor
+    }
+  };
+
+  const HandleLikeVideo = async () => {
+    const userRef = doc(db, "users", userData.uid);
+    if (!isLiked) {
+      setIsLiked(true);
+      try {
+        await updateDoc(userRef, {
+          likedSongs: arrayUnion(videoId),
+        });
+
+        // Update localStorage with the new likedSongs list
+        const newLikedSongs = [...userData.likedSongs, videoId];
+        const newUserData = { ...userData, likedSongs: newLikedSongs };
+        localStorage.setItem("user", JSON.stringify(newUserData));
+      } catch (error) {
+        console.error("Error al dar like:", error);
+      }
+    } else if (isLiked) {
+      setIsLiked(false);
+      await updateDoc(userRef, {
+        likedSongs: arrayRemove(videoId),
+      });
+
+      const newLikedSongs = userData.likedSongs.filter((id) => id !== videoId);
+      const newUserData = { ...userData, likedSongs: newLikedSongs };
+      localStorage.setItem("user", JSON.stringify(newUserData));
     }
   };
 
@@ -188,7 +236,12 @@ export default function Player({
 
           <div className="track-info">
             <strong>{title}</strong>
-            <p style={{ color: "lightgray" }}>{artist}</p>
+            <p style={{ color: "lightgray" }} className="artistNameLink">
+              {artist}
+            </p>
+            <p className="listNameLink" onClick={() => navigate("/queue")}>
+              {videosListName !== "" ? videosListName : ""}
+            </p>
           </div>
         </div>
 
@@ -259,16 +312,13 @@ export default function Player({
 
         <div className="third-column">
           <ul className="third-column-row">
-            <li>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#FFFFFF"
-              >
-                <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z" />
-              </svg>
+            <li onClick={() => HandleLikeVideo()}>
+              <FaHeart
+                size={20}
+                style={{
+                  color: `${isLiked ? "var(--primary-color)" : "white"}`,
+                }}
+              />
             </li>
 
             {videosListForPlay.length > 0 ? (

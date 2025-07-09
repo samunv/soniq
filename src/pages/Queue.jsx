@@ -3,6 +3,7 @@ import Header from "../layout/Header";
 import Main from "../layout/Main";
 import "../css/Queue.css";
 import { FaPlayCircle } from "react-icons/fa";
+import { useEffect, useRef } from "react";
 
 export default function Queue() {
   const {
@@ -10,11 +11,18 @@ export default function Queue() {
     videosListName,
     currentVideoId,
     setSelectedVideo,
-    selectedVideo,
     setVideoIndex,
     playlistData,
   } = useVideo();
 
+  const videoRefs = useRef({});
+
+  useEffect(() => {
+    const selectedRef = videoRefs.current[currentVideoId];
+    if (selectedRef) {
+      selectedRef.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [currentVideoId]);
   return (
     <>
       <Header />
@@ -35,7 +43,7 @@ export default function Queue() {
               <img
                 src={
                   playlistData !== null
-                    ? `https://img.youtube.com/vi/${selectedVideo.videoId}/mqdefault.jpg`
+                    ? `https://img.youtube.com/vi/${videosList[0].videoId}/mqdefault.jpg`
                     : playlistData.image
                 }
                 alt=""
@@ -54,8 +62,10 @@ export default function Queue() {
                   setSelectedVideo(video);
                   setVideoIndex(index);
                 }}
+                ref={(el) => (videoRefs.current[video.videoId] = el)}
               >
                 <div className="video-row-first-column">
+                  <strong style={{fontFamily:"inter-bold", color:"lightgray"}}>{String(index + 1).padStart(2, '0')}</strong>
                   <img
                     src={`https://img.youtube.com/vi/${video.videoId}/mqdefault.jpg`}
                     className="video-row-pic"
@@ -72,7 +82,7 @@ export default function Queue() {
                     style={{ color: "var(--primary-color)" }}
                   ></div>
                 ) : (
-                  <FaPlayCircle size={25} />
+                  <FaPlayCircle size={22} />
                 )}
               </div>
             ))}

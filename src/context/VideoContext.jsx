@@ -7,7 +7,10 @@ export function VideoProvider({ children }) {
     const storedVideo = localStorage.getItem("selectedVideo");
     return storedVideo ? JSON.parse(storedVideo) : null;
   });
-  const [videosList, setVideosList] = useState([]);
+  const [videosList, setVideosList] = useState(()=>{
+    const storedVideosList = localStorage.getItem("selectedVideosList");
+    return storedVideosList ? JSON.parse(storedVideosList) : null;
+  });
   const [videoIndex, setVideoIndex] = useState(0);
   const [selectedTag, setSelectedTag] = useState({});
   const [videosListName, setVideosListName] = useState("");
@@ -15,13 +18,17 @@ export function VideoProvider({ children }) {
   const [playlistData, setPlayListData] = useState({});
 
   useEffect(() => {
-    if (selectedVideo) {
+    if (selectedVideo && videosList) {
       localStorage.setItem("selectedVideo", JSON.stringify(selectedVideo));
+      localStorage.setItem("selectedVideosList", JSON.stringify(videosList));
     } else {
       localStorage.removeItem("selectedVideo");
+      localStorage.removeItem("selectedVideosList");
     }
-    setCurrentVideoId(selectedVideo.videoId);
-  }, [selectedVideo]);
+    if (selectedVideo !== null) {
+      setCurrentVideoId(selectedVideo.videoId);
+    }
+  }, [selectedVideo, videosList]);
 
   return (
     <VideoContext.Provider

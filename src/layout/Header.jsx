@@ -6,7 +6,11 @@ import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 //import { useContext } from "react";
+import { IoIosAddCircle } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
+import { IoLibrary } from "react-icons/io5";
+
+import { MdOutlineLibraryMusic } from "react-icons/md";
 
 export default function Header() {
   const userDataString = localStorage.getItem("user");
@@ -19,28 +23,32 @@ export default function Header() {
           <img
             src="img/Soniq__1_-removebg-preview.png"
             alt=""
-            width={80}
+            width={70}
             className="soniq-logo"
           />
         </Link>
       </div>
       <div className="Navigation">
+        <NavLink to="" className={"add-songs-link"}>
+          <IoIosAddCircle size={20} />
+          Add Songs
+        </NavLink>
         <NavLink
           to="/home"
           className={({ isActive }) =>
             `Header-link ${isActive ? "active" : ""}`
           }
         >
-           <IoSearch size={25} />
+          <IoSearch size={25} />
         </NavLink>
-        <NavLink
+        {/* <NavLink
           to="/favs"
           className={({ isActive }) =>
             `Header-link ${isActive ? "active" : ""}`
           }
         >
-          <FaHeart size={25} />
-        </NavLink>
+          <MdOutlineLibraryMusic size={25} />
+        </NavLink> */}
         <NavLink
           to="/profile"
           className={({ isActive }) =>
