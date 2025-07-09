@@ -87,11 +87,15 @@ export default function Library() {
           </div>
           <div>
             <p>Liked Songs</p>
-            <p style={{color:"gray"}}>{userLikedSongsVideosList.length} songs</p>
+            {userLikedSongsVideosList.length > 0 ? (
+              <p style={{ color: "gray" }}>
+                {userLikedSongsVideosList.length} songs
+              </p>
+            ) : ""}
           </div>
         </div>
 
-        <hr style={{borderColor:"gray"}}/>
+        <hr style={{ borderColor: "rgb(58, 58, 58)" }} />
       </div>
     </div>
   );

@@ -11,6 +11,7 @@
   -webkit-backdrop-filter: blur(12px); /* para Safari */
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* sombreado suave */
   z-index: 300;
+  border-bottom: 1px rgb(58, 58, 58) solid;
 }
 
 .Header-logo {

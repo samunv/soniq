@@ -2,14 +2,10 @@
   position: fixed;
   width: calc(250px - 60px);
   padding: 30px;
-   background-image: linear-gradient(
-    to bottom,
-    var(--bg-color),
-    rgb(12, 12, 12)
-  );
-  border-top-right-radius:10px ;
+  background-color: black;
+  border-right: 1px rgb(58, 58, 58) solid;
   height: calc(100vh - 90px);
-  top: 80px;
+  top: 70px;
   left: 0;
   overflow-y: auto;
 }
@@ -30,7 +26,7 @@
 }
 
 .Square {
-  background-color: black;
+  background-color: var(--bg-color);
   width: 50px;
   height: 50px;
   border-radius: 10px;
