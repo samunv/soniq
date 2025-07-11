@@ -35,7 +35,7 @@ export default function Player({
   const [isLiked, setIsLiked] = useState(false);
   const userDataString = localStorage.getItem("user");
   const userData = userDataString ? JSON.parse(userDataString) : null;
-  const userLikedSongs = userData.likedSongs;
+  const userLikedSongs = userData?.likedSongs || [];
   // const navigate = useNavigate();
   // const { pathname } = useLocation();
 
@@ -65,6 +65,17 @@ export default function Player({
     }
   }, [videoId]);
 
+  useEffect(() => {
+  const interval = setInterval(() => {
+    if (playerRef.current && playerRef.current.getCurrentTime) {
+      setCurrentTime(playerRef.current.getCurrentTime());
+    }
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, []);
+
+
   const opts = {
     height: "80",
     width: "130",
@@ -87,16 +98,22 @@ export default function Player({
     },
   };
 
+  // const onReady = (event) => {
+  //   event.target.setVolume(volume);
+  //   playerRef.current = event.target;
+  //   setDuration(event.target.getDuration());
+  //   setInterval(() => {
+  //     if (playerRef.current && playerRef.current.getCurrentTime) {
+  //       setCurrentTime(playerRef.current.getCurrentTime());
+  //     }
+  //   }, 1000);
+  // };
+
   const onReady = (event) => {
-    event.target.setVolume(volume);
-    playerRef.current = event.target;
-    setDuration(event.target.getDuration());
-    setInterval(() => {
-      if (playerRef.current && playerRef.current.getCurrentTime) {
-        setCurrentTime(playerRef.current.getCurrentTime());
-      }
-    }, 1000);
-  };
+  event.target.setVolume(volume);
+  playerRef.current = event.target;
+  setDuration(event.target.getDuration());
+};
 
   const playVideo = () => {
     setPlaying(true);

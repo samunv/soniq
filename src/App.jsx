@@ -71,7 +71,7 @@ export default function App() {
                 </PrivateRoute>
               }
             />
-           
+
             <Route
               path="/queue"
               element={
@@ -80,11 +80,11 @@ export default function App() {
                 </PrivateRoute>
               }
             />
-             <Route
+            <Route
               path="/add-songs"
               element={
                 <PrivateRoute>
-                 <AddSongsPage />
+                  <AddSongsPage />
                 </PrivateRoute>
               }
             />
@@ -118,7 +118,6 @@ function VideoPlayerWrapper() {
         videoIndex={videoIndex}
         selectedTag={selectedTag}
       />
-      
     </>
   );
 }
