@@ -37,7 +37,7 @@ export default function Queue() {
                 fontSize: "20px",
               }}
             >
-              Music queue • {videosList.length} songs{" "}
+              List • {videosList.length} songs{" "}
             </p>
             <div className="queue-art-container">
               <img

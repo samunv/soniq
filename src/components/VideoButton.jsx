@@ -27,8 +27,7 @@ export default function VideoButton({
         </div>
         {selectedVideoId === videoId ? (
           <div className="loader"></div>
-        ) : (
-          <FaPlayCircle size={25} />
+        ) : (""
         )}
       </div>
     </div>

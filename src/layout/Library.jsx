@@ -64,9 +64,9 @@ export default function Library() {
 
   return (
     <div className="Library">
-      <strong style={{ fontFamily: "inter-bold", fontSize: "20px" }}>
+      <h2 >
         Playlists
-      </strong>
+      </h2>
       <div className="LibraryColumn">
         <div className="PlaylistContainer">
           <div className="Square">

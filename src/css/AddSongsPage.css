@@ -1,0 +1,21 @@
+.add-songs-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.infoSquare {
+    background-image: url("/img/listeningtomusic.png");
+    background-size: cover;
+    background-position: center;
+    height: 120px;
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+}

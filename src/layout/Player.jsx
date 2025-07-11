@@ -47,7 +47,8 @@ export default function Player({
     console.log("PLAYER > VideosList:", videosListForPlay);
     console.log("VideoIndex Player>> :", videoIndex);
     console.log("VideoListLenght: ", videosListForPlay.length);
-  }, [videosListForPlay, videoIndex]);
+    setPlaying(true);
+  }, [videosListForPlay, videoIndex, setPlaying]);
 
   // useEffect(() => {
   //   setLikedSongsArray(userData.likedSongs);
@@ -59,8 +60,10 @@ export default function Player({
   // }, [likedSongsArray]);
 
   useEffect(() => {
-    setIsLiked(userData.likedSongs.includes(videoId));
-  }, [userData.likedSongs, videoId]);
+    if (userData && userData.likedSongs) {
+      setIsLiked(userData.likedSongs.includes(videoId));
+    }
+  }, [videoId]);
 
   const opts = {
     height: "80",
@@ -236,11 +239,8 @@ export default function Player({
 
           <div className="track-info">
             <strong>{title}</strong>
-            <p style={{ color: "lightgray" }} className="artistNameLink">
+            <p style={{ color: "gray" }} className="artistNameLink">
               {artist}
-            </p>
-            <p className="listNameLink" onClick={() => navigate("/queue")}>
-              {videosListName !== "" ? videosListName : ""}
             </p>
           </div>
         </div>
@@ -267,7 +267,6 @@ export default function Player({
               className="prev-next-buttons"
             />
             <div className="playing-pause-btns">
-              {" "}
               {playing ? (
                 <FaCirclePause size={32} onClick={pauseVideo} />
               ) : (
@@ -312,7 +311,7 @@ export default function Player({
 
         <div className="third-column">
           <ul className="third-column-row">
-            <li onClick={() => HandleLikeVideo()}>
+            <li onClick={HandleLikeVideo}>
               <FaHeart
                 size={20}
                 style={{

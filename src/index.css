@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: "inter-extrabold";
-  src: url("/fonts/Inter/static/Inter_18pt-ExtraBold.ttf") format("truetype");
+  src: url("/fonts/League_Spartan/static/LeagueSpartan-Bold.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -49,9 +49,14 @@ h1 {
 
 h2 {
   font-family: "inter-extrabold";
-  font-size: 30px;
+  font-size: 27px;
 }
 
+
+strong{
+  font-family: 'inter-medium' !important;
+  font-weight: 500 !important;
+}
 
 button{
   font-size: 15px;

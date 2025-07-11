@@ -10,7 +10,6 @@ import { IoIosAddCircle } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
 import { IoLibrary } from "react-icons/io5";
 
-import { MdOutlineLibraryMusic } from "react-icons/md";
 
 export default function Header() {
   const userDataString = localStorage.getItem("user");
@@ -29,7 +28,7 @@ export default function Header() {
         </Link>
       </div>
       <div className="Navigation">
-        <NavLink to="" className={"add-songs-link"}>
+        <NavLink to="/add-songs" className={"add-songs-link"}>
           <IoIosAddCircle size={20} />
           Add Songs
         </NavLink>
@@ -39,7 +38,7 @@ export default function Header() {
             `Header-link ${isActive ? "active" : ""}`
           }
         >
-          <IoSearch size={25} />
+          <GoHomeFill size={30}/>
         </NavLink>
         {/* <NavLink
           to="/favs"

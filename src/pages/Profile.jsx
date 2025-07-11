@@ -48,17 +48,21 @@ export default function Profile() {
     <div className="Profile">
       <Header />
       <Main>
-        <div>
+        <h2>Profile</h2>
+        <div style={{marginTop:"20px"}}>
           <div className="user-data">
             <img
               src={userData.photo}
               style={{ width: "150px", borderRadius: "50%" }}
             />
             <div className="user-info">
+                <p style={{fontSize:"16px", marginBottom:"10px"}}>Contribution points: {userData.contributions ? userData.contributions : 0}</p>
               <h1>{userData.username}</h1>
               <p>{userData.email}</p>
             </div>
+            
           </div>
+        
           <div className="buttons">
             <button
               className="btn-profile edit"
@@ -91,6 +95,7 @@ export default function Profile() {
               </svg>
             </button>
           </div>
+          
 
           {logoutModal ? (
             <>
