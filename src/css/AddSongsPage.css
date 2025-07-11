@@ -19,3 +19,33 @@
     text-align: center;
     
 }
+
+
+.form-add-songs{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    gap: 20px;
+      width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.form-group label {
+    font-size: 15px;
+    color: gray;
+}
+
+.form-group input {
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--bg-color);
+    color: white;
+    font-size: 15px;
+}

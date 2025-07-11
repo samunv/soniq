@@ -65,7 +65,6 @@ export default function Queue() {
                 ref={(el) => (videoRefs.current[video.videoId] = el)}
               >
                 <div className="video-row-first-column">
-                  <strong style={{fontFamily:"inter-bold", color:"lightgray"}}>{String(index + 1).padStart(2, '0')}</strong>
                   <img
                     src={`https://img.youtube.com/vi/${video.videoId}/mqdefault.jpg`}
                     className="video-row-pic"

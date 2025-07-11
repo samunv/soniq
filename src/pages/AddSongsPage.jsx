@@ -22,25 +22,35 @@ export default function AddSongsPage() {
             </h3>
           </div>
           <div className="form-add-songs">
-            <label htmlFor="">Song Name or title</label>
-            <input type="text" />
+            <div className="form-group">
+              <label htmlFor="">Song Name or title</label>
+              <input type="text" required/>
+            </div>
 
-            <label htmlFor="">Artist or Author Name</label>
-            <input type="text" />
-
-            <label htmlFor="">YouTube Video URL</label>
-            <input
-              type="text"
-              placeholder="https://www.youtube.com/watch?v=5SbpKO3jbJg&list=RD5SbpKO3jbJg&start_radio=1"
-            />
-
-            <label htmlFor="">Tags</label>
-            <input
-              type="text"
-              name="tags"
-              placeholder="Type tags separated by commas (e.g., Chill, Party)"
-              aria-label="Song tags"
-            />
+            <div className="form-group">
+              {" "}
+              <label htmlFor="">Artist or Author Name</label>
+              <input type="text" required/>
+            </div>
+            <div className="form-group">
+              {" "}
+              <label htmlFor="">YouTube Video URL</label>
+              <input
+                type="text"
+                placeholder="https://www.youtube.com/watch?v=5SbpKO3jbJg&list=RD5SbpKO3jbJg&start_radio=1"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="">Tags</label>
+              <input
+                type="text"
+                name="tags"
+                placeholder="Type tags separated by commas (e.g., Chill, Party)"
+                aria-label="Song tags"
+                required
+              />
+            </div>
           </div>
         </div>
       </Main>
