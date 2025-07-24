@@ -22,7 +22,7 @@ export default function VideoButton({
       />
       <div className="video-info">
         <div>
-          <strong>{title}</strong>
+          <span>{title}</span>
           <p>{artist}</p>
         </div>
         {selectedVideoId === videoId ? (

@@ -16,6 +16,7 @@ export function VideoProvider({ children }) {
   const [videosListName, setVideosListName] = useState("");
   const [currentVideoId, setCurrentVideoId] = useState(null);
   const [playlistData, setPlayListData] = useState({});
+  const [isArtistVideosList, setIsArtistVideosList] = useState(false);
 
   useEffect(() => {
     if (selectedVideo && videosList) {
@@ -47,6 +48,8 @@ export function VideoProvider({ children }) {
         setCurrentVideoId,
         playlistData,
         setPlayListData,
+        isArtistVideosList,
+        setIsArtistVideosList,
       }}
     >
       {children}

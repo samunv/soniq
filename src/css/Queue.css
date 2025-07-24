@@ -1,8 +1,17 @@
 .Queue-Row {
   display: flex;
   align-items: flex-start;
-  gap: 50px;
+  justify-content: space-between;
+  gap: 30px;
+
 }
+
+.queue-art-container{
+  padding: 30px;
+  border-radius: 20px;
+}
+
+
 .queue-videos-list {
   width: 100%;
   height: calc(100vh - 220px);
@@ -47,12 +56,15 @@
 }
 
 .video-row-button.playing{
-    padding: 15px !important;
-    background-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.video-row-button.playing .loader {
+   --c: no-repeat linear-gradient(var(--primary-color) 0 0);
 }
 
 .video-row-button.playing .video-row-first-column p {
-    color: white;
+    
 }
 
 .video-row-first-column {
@@ -80,3 +92,8 @@
   fill: var(--primary-color);
 }
 
+.artist-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}

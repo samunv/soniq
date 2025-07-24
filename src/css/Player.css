@@ -39,8 +39,8 @@
   width: 100%;
 }
 
-.ArtViewPlayer .Track strong {
-  font-size: 30px;
+.ArtViewPlayer .Track span{
+  font-size: 30px !important;
   font-family: "inter-extrabold";
 }
 

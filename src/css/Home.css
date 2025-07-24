@@ -2,10 +2,11 @@
   padding: 15px 20px;
   display: flex;
   align-items: center;
-  border: 1px solid var(--bg-color);
-  background-color: var(--bg-color);
+  border: 1px solid rgb(58, 58, 58);
+  background-color: black;
   border-radius: 10px;
   gap: 10px;
+  width: calc(100% - 40px);
 }
 
 .search-box input {
@@ -15,6 +16,7 @@
   color: white;
   font-size: 16px;
   outline: none;
+
 }
 
 .search-box svg {

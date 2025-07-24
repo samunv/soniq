@@ -11,6 +11,9 @@ import { IoSearch } from "react-icons/io5";
 import { IoLibrary } from "react-icons/io5";
 
 import { MdOutlineLibraryMusic } from "react-icons/md";
+import { useState } from "react";
+import Modal from "../components/Modal";
+import Overlay from "../components/Overlay";
 
 export default function Header() {
   const userDataString = localStorage.getItem("user");
@@ -29,7 +32,10 @@ export default function Header() {
         </Link>
       </div>
       <div className="Navigation">
-        <NavLink to="" className={"add-songs-link"}>
+        <NavLink
+          to=""
+          className={"add-songs-link"}
+        >
           <IoIosAddCircle size={20} />
           Add Songs
         </NavLink>
@@ -39,7 +45,7 @@ export default function Header() {
             `Header-link ${isActive ? "active" : ""}`
           }
         >
-          <IoSearch size={25} />
+          <GoHomeFill size={25} />
         </NavLink>
         {/* <NavLink
           to="/favs"
@@ -58,6 +64,8 @@ export default function Header() {
           <img src={userData.photo} className="profile-image" />
         </NavLink>
       </div>
+
+
     </div>
   );
 }

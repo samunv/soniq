@@ -7,14 +7,13 @@
 }
 
 .user-info h1 {
-  font-size: 3rem;
+  font-size: 4rem;
 }
 
 .user-info p {
   font-size: 25px;
   color: gray;
 }
-
 
 .buttons {
   display: flex;
@@ -27,7 +26,7 @@
   padding: 17px 25px;
   border-radius: 30px;
   font-family: "inter-bold";
-  
+
   color: white;
   border: none;
   cursor: pointer;
@@ -36,25 +35,21 @@
   gap: 5px;
 }
 
-.btn-profile.edit {
-  background-color: #2f2d32;
+.btn-profile {
+  color: black;
+  background-color: white;
 }
 
-.btn-profile.log-out {
-  background-color: #2f2d32;
-}
 
 .btn-profile:hover {
-  background-color: #1c1b1e;
+  opacity: 0.8;
 }
-
 
 .modal-buttons {
   display: flex;
   flex-direction: row;
   gap: 15px;
 }
-
 
 .btn-profile.confirm {
   background-color: var(--primary-color);
@@ -63,7 +58,7 @@
 .btn-profile.cancel {
   background-color: #2f2d32;
 }
-.edit-profile-input{
+.edit-profile-input {
   background-color: black;
   border: none;
   border-radius: 10px;
@@ -74,13 +69,30 @@
   font-size: 15px;
 }
 
-.edit-profile-label{
+.edit-profile-label {
   color: gray;
   font-size: 15px;
 }
 
-.input-label-column{
+.input-label-column {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.user-data img {
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.276);
+}
+
+.user-data:hover img {
+  transform: scale(1.05);
+}
+
+
+.profile-container{
+  margin-top: 20px;
+  padding: 30px;
+  border-radius: 20px;
+  width: calc(100% - 60px);
 }

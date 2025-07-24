@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function Library() {
-  const { setVideosList, setVideoIndex, setSelectedVideo, setVideosListName } =
+  const { setVideosList, setVideoIndex, setSelectedVideo, setVideosListName, setIsArtistVideosList } =
     useVideo();
   const userDataString = localStorage.getItem("user");
   const userData = userDataString ? JSON.parse(userDataString) : null;
@@ -55,18 +55,19 @@ export default function Library() {
     const fetchLikedVideos = async () => {
       const likedVideos = await getUserLikedSongsVideos(userLikedSongs);
       setUserLikedSongsVideosList(likedVideos);
+      console.log("Liked Songs Videos List:", likedVideos);
     };
 
     if (userLikedSongs) {
       fetchLikedVideos();
     }
-  }, [userLikedSongs]);
+  }, []);
 
   return (
     <div className="Library">
-      <strong style={{ fontFamily: "inter-bold", fontSize: "20px" }}>
+      <h2>
         Playlists
-      </strong>
+      </h2>
       <div className="LibraryColumn">
         <div className="PlaylistContainer">
           <div className="Square">
@@ -77,9 +78,15 @@ export default function Library() {
         <div
           className="PlaylistContainer likedSongs"
           onClick={() => {
-            setVideosList(userLikedSongsVideosList);
-            setVideosListName("Liked Songs");
-            navigate("/queue");
+            if (userLikedSongsVideosList.length === 0) {
+              alert("You have no liked songs yet.");
+              return;
+            } else {
+              setIsArtistVideosList(false);
+              setVideosList(userLikedSongsVideosList);
+              setVideosListName("Liked Songs");
+              navigate("/queue");
+            }
           }}
         >
           <div className="Square">
@@ -91,7 +98,11 @@ export default function Library() {
               <p style={{ color: "gray" }}>
                 {userLikedSongsVideosList.length} songs
               </p>
-            ) : ""}
+            ) : (
+               <p style={{ color: "gray" }}>
+                No songs liked yet
+              </p>
+            )}
           </div>
         </div>
 

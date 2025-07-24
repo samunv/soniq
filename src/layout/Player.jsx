@@ -12,7 +12,14 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import { NavLink, useNavigate } from "react-router";
 // import { useNavigate, useLocation } from "react-router";ç
 import { db } from "../firebase";
-import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  collection,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { FaHeart } from "react-icons/fa";
 
 export default function Player({
@@ -36,18 +43,41 @@ export default function Player({
   const userDataString = localStorage.getItem("user");
   const userData = userDataString ? JSON.parse(userDataString) : null;
   const userLikedSongs = userData.likedSongs;
+  const [videos, setVideos] = useState([]);
   // const navigate = useNavigate();
   // const { pathname } = useLocation();
 
   const navigate = useNavigate();
 
-  const { setVideoIndex, setSelectedVideo, videosListName } = useVideo();
+  const {
+    setVideoIndex,
+    setSelectedVideo,
+    videosListName,
+    selectedVideo,
+    setVideosList,
+    setVideosListName,
+    setIsArtistVideosList,
+  } = useVideo();
 
   useEffect(() => {
     console.log("PLAYER > VideosList:", videosListForPlay);
     console.log("VideoIndex Player>> :", videoIndex);
     console.log("VideoListLenght: ", videosListForPlay.length);
   }, [videosListForPlay, videoIndex]);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "videos"));
+        const fbVideoList = querySnapshot.docs.map((doc) => doc.data());
+        setVideos(fbVideoList);
+      } catch (error) {
+        console.error("Error fetching videos: ", error);
+      }
+    };
+
+    fetchVideos();
+  }, []);
 
   // useEffect(() => {
   //   setLikedSongsArray(userData.likedSongs);
@@ -59,8 +89,9 @@ export default function Player({
   // }, [likedSongsArray]);
 
   useEffect(() => {
-    setIsLiked(userData.likedSongs.includes(videoId));
-  }, [userData.likedSongs, videoId]);
+    const liked = userData?.likedSongs?.includes(videoId);
+    setIsLiked(liked);
+  }, [videoId]);
 
   const opts = {
     height: "80",
@@ -235,12 +266,24 @@ export default function Player({
           </div>
 
           <div className="track-info">
-            <strong>{title}</strong>
-            <p style={{ color: "lightgray" }} className="artistNameLink">
+            <span style={{ fontSize: "14px" }}>{title}</span>
+            <p
+              style={{ color: "lightgray" }}
+              className="artistNameLink"
+              onClick={() => {
+                const filteredArtistVideoList = videos.filter(
+                  (video) =>
+                    video.artist === artist ||
+                    video.title.toLowerCase().includes(artist.toLowerCase())
+                );
+                setIsArtistVideosList(true);
+                setVideosList(filteredArtistVideoList);
+                setVideosListName(artist);
+                navigate("/queue");
+                setArtView(false);
+              }}
+            >
               {artist}
-            </p>
-            <p className="listNameLink" onClick={() => navigate("/queue")}>
-              {videosListName !== "" ? videosListName : ""}
             </p>
           </div>
         </div>
@@ -312,7 +355,7 @@ export default function Player({
 
         <div className="third-column">
           <ul className="third-column-row">
-            <li onClick={() => HandleLikeVideo()}>
+            <li onClick={HandleLikeVideo}>
               <FaHeart
                 size={20}
                 style={{

@@ -2,7 +2,7 @@ import Main from "../layout/Main";
 import Header from "../layout/Header";
 import "../css/Home.css";
 import { IoSearch } from "react-icons/io5";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { tags } from "../tags";
 import VideoButton from "../components/VideoButton";
 import { useVideo } from "../context/VideoContext";
@@ -24,6 +24,7 @@ export default function Home() {
     setVideoIndex,
     setSelectedTag,
     setVideosListName,
+    setIsArtistVideosList
   } = useVideo();
   const [randomVideosArr, setRandomVideosArr] = useState([]);
   const [visibleCount, setVisibleCount] = useState(8);
@@ -44,7 +45,6 @@ export default function Home() {
 
     fetchVideos();
   }, []);
-
 
   // useEffect(() => {
   //   // setVideosList(randomVideosArr);
@@ -116,6 +116,7 @@ export default function Home() {
                     setVideoIndex(0);
                     setVideosListName("#" + tag.name + " List");
                     navigate("/queue");
+                    setIsArtistVideosList(false);
                   }}
                 >
                   <div className="tag-img-wrapper">
@@ -151,6 +152,7 @@ export default function Home() {
                       setVideoIndex(index);
                       setSelectedTag({});
                       setVideosListName("Explore Section List");
+                      setIsArtistVideosList(false);
                     }}
                     selectedVideoId={selectedVideo?.videoId}
                   />
@@ -161,13 +163,13 @@ export default function Home() {
               </button>
             </div>
 
-            <div className="AdContainer">
+            {/* <div className="AdContainer">
               <AdBanner />
-            </div>
+            </div> */}
           </div>
         ) : (
           <div className="search-result-section">
-            <p style={{ marginTop: "15px", fontSize: "16px", color: "gray" }}>
+            <p style={{ marginTop: "15px", fontSize: "14px", color: "gray" }}>
               Results for {searchedValue}
             </p>
             <div className="search-result-list">
@@ -182,6 +184,7 @@ export default function Home() {
                     setSelectedTag({});
                     setVideosList(searchedVideoList);
                     setVideosListName("Searched Videos");
+                    setIsArtistVideosList(false);
                   }}
                   selectedVideoId={selectedVideo?.videoId}
                 />

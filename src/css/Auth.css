@@ -62,7 +62,7 @@
 }
 
 .btn-sign-in:hover {
-  background-color: #ff6e61cb;
+  opacity: 0.8;
 }
 
 .sign-up-link {

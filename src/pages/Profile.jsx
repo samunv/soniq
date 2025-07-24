@@ -1,46 +1,116 @@
 import Header from "../layout/Header";
 import Main from "../layout/Main";
-import { AuthContext } from "../context/AuthContext";
 import "../css/Profile.css";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Modal from "../components/Modal";
 import Overlay from "../components/Overlay";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import axios from "axios";
+import { MdEdit } from "react-icons/md";
+import ColorThief from "color-thief-browser";
+
+import { MdLogout } from "react-icons/md";
+import { FastAverageColor } from 'fast-average-color';
 
 export default function Profile() {
   const userDataString = localStorage.getItem("user");
   const userData = userDataString ? JSON.parse(userDataString) : null;
+
   const [logoutModal, setLogoutModal] = useState(false);
   const [editProfileModal, setEditProfileModal] = useState(false);
   const [usernameInput, setUsernameInput] = useState(userData?.username || "");
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(userData?.photo || "");
+  const [uploading, setUploading] = useState(false);
+  const imgRef = useRef(null);
+  const [dominantColor, setDominantColor] = useState(null);
+
+  const imgbbApiKey = "243369439f9f662e618fd851bbd243f7";
+
+  useEffect(() => {
+    const img = imgRef.current;
+    if (!img || !imageUrl) return;
+
+    const fac = new FastAverageColor();
+
+    fac
+      .getColorAsync(img)
+      .then((color) => {
+        setDominantColor(color.rgb);
+      })
+      .catch((e) => {
+        console.error("Error FastAverageColor:", e);
+      });
+  });
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      console.log("Sesión cerrada");
       localStorage.removeItem("user");
-
       window.location.href = "/";
     } catch (error) {
       console.error("Logout error: ", error);
     }
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+    }
+  };
+
+  const handleUploadImage = async () => {
+    if (!image) return null;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("image", image);
+
+    try {
+      const res = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${imgbbApiKey}`,
+        formData
+      );
+      const url = res.data.data.url;
+      setImageUrl(url);
+      return url;
+    } catch (error) {
+      console.error("Error subiendo la imagen:", error);
+      return null;
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSaveProfile = async (newUsername) => {
     try {
-      const userRef = doc(db, "users", userData?.uid);
+      let uploadedUrl = imageUrl;
 
+      if (image) {
+        const url = await handleUploadImage();
+        if (url) uploadedUrl = url;
+      }
+
+      const userRef = doc(db, "users", userData?.uid);
       await updateDoc(userRef, {
         username: newUsername,
+        photo: uploadedUrl,
       });
-      const updatedUserData = { ...userData, username: newUsername };
-      localStorage.setItem("user", JSON.stringify(updatedUserData));
+
+      const updatedUser = {
+        ...userData,
+        username: newUsername,
+        photo: uploadedUrl,
+      };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
       setEditProfileModal(false);
+      window.location.reload();
     } catch (error) {
-      console.error("Error updating username: ", error);
+      console.error("Error updating profile:", error);
     }
   };
 
@@ -48,70 +118,76 @@ export default function Profile() {
     <div className="Profile">
       <Header />
       <Main>
-        <div>
-          <div className="user-data">
+        <h2>Profile</h2>
+        <div
+          className="profile-container"
+          style={{
+            backgroundImage: `linear-gradient(
+    to bottom,
+    ${dominantColor || "var(--bg-color)"},
+    black
+  )`,
+          }}
+        >
+          <div
+            className="user-data"
+            onClick={() => setEditProfileModal(true)}
+            style={{ cursor: "pointer" }}
+          >
             <img
-              src={userData.photo}
-              style={{ width: "150px", borderRadius: "50%" }}
+              src={imageUrl}
+              alt="profile"
+              style={{
+                width: "150px",
+                height: "150px",
+                borderRadius: "50%",
+                objectFit: "cover",
+              }}
+              ref={imgRef}
+              crossOrigin="anonymous"
             />
             <div className="user-info">
               <h1>{userData.username}</h1>
-              <p>{userData.email}</p>
+              <p style={{color:"white"}}>{userData.email}</p>
             </div>
           </div>
+
           <div className="buttons">
             <button
               className="btn-profile edit"
               onClick={() => setEditProfileModal(true)}
             >
               Edit Profile
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="25px"
-                viewBox="0 -960 960 960"
-                width="25px"
-                fill="#FFFFFF"
-              >
-                <path d="M188-189h45l421-420-43-44-423 421v43ZM95-95v-176l573-573q9-10 22.36-15.5Q703.71-865 718-865q13 0 26 5.5t25 14.5l77 74q10 12 15 25.5t5 27.5q0 14-5.5 27.5T846-667L272-95H95Zm668-624-42-43 42 43Zm-130 87-22-21 43 44-21-23Z" />
-              </svg>
+              <MdEdit size={23} />
             </button>
+
             <button
               className="btn-profile log-out"
               onClick={() => setLogoutModal(true)}
             >
-              Log Out{" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="25px"
-                viewBox="0 -960 960 960"
-                width="25px"
-                fill="#FFFFFF"
-              >
-                <path d="M189-95q-39.05 0-66.53-27.47Q95-149.95 95-189v-582q0-39.46 27.47-67.23Q149.95-866 189-866h296v95H189v582h296v94H189Zm467-174-67-66 97-98H354v-94h330l-97-98 67-66 212 212-210 210Z" />
-              </svg>
+              Log Out
+              <MdLogout size={25} />
             </button>
           </div>
 
-          {logoutModal ? (
+          {logoutModal && (
             <>
               <Modal
-                text={"Are you sure you want to log out?"}
+                text="Are you sure you want to log out?"
                 onClose={() => setLogoutModal(false)}
                 onAction={handleLogout}
-                onActionText={"Yes"}
+                onActionText="Yes"
               />
               <Overlay />
             </>
-          ) : (
-            ""
           )}
 
-          {editProfileModal ? (
+          {editProfileModal && (
             <>
               <Modal
-                text={"Edit Profile"}
+                text="Edit Profile"
                 onClose={() => setEditProfileModal(false)}
-                onActionText={"Save"}
+                onActionText="Save"
                 onAction={() => handleSaveProfile(usernameInput)}
               >
                 <div className="input-label-column">
@@ -121,28 +197,29 @@ export default function Profile() {
                   <input
                     type="text"
                     value={usernameInput}
-                    className="edit-profile-input"
                     onChange={(e) => setUsernameInput(e.target.value)}
+                    className="edit-profile-input"
                     id="name-user"
                   />
                 </div>
 
                 <div className="input-label-column">
-                  {" "}
                   <label htmlFor="photo-user" className="edit-profile-label">
-                    Select a Photo
+                    Photo
                   </label>
                   <input
                     type="file"
                     className="edit-profile-input"
+                    onChange={handleFileChange}
                     id="photo-user"
+                    accept="image/*"
                   />
                 </div>
+
+                {uploading && <p>Uploading image...</p>}
               </Modal>
               <Overlay />
             </>
-          ) : (
-            ""
           )}
         </div>
       </Main>

@@ -45,14 +45,25 @@ body {
 
 h1 {
   font-family: "inter-extrabold";
+  font-weight: normal !important;
 }
 
 h2 {
   font-family: "inter-extrabold";
   font-size: 30px;
+  font-weight: normal !important;
 }
 
 
 button{
   font-size: 15px;
+}
+
+strong {
+  font-family: "inter-extrabold" !important;
+  font-weight: normal !important;
+}
+
+canvas{
+  display: none;
 }
