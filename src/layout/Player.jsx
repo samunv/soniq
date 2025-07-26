@@ -93,7 +93,7 @@ export default function Player({
   let interval;
   if (playing) {
     interval = setInterval(() => {
-      const time = playerRef.current?.getCurrentTime;
+      const time = playerRef.current?.getCurrentTime?.();
 
       if (typeof time === 'number') {
         setCurrentTime(time);
