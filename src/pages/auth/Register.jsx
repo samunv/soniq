@@ -34,6 +34,8 @@ export default function Register() {
         playlists: [],
         likedSongs: [],
         suscribtion: "free",
+        contributions:0,
+        languague: "en",
       });
 
       alert("Success! Your Soniq account has been created.");

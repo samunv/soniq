@@ -1,5 +1,5 @@
 import "../css/Main.css";
-import Library from "../pages/Library";
+import Library from "./Library";
 import Player from "./Player";
 
 export default function Main({ children, style }) {

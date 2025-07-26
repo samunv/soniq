@@ -13,6 +13,7 @@ import Header from "./layout/Header";
 import PrivateRoute from "./routers/PrivateRouter";
 import PublicRoute from "./routers/PublicRouter";
 import "./App.css";
+import AddSongsPage from "./pages/AddSongsPage";
 
 export default function App() {
   return (
@@ -70,12 +71,20 @@ export default function App() {
                 </PrivateRoute>
               }
             />
-           
+
             <Route
               path="/queue"
               element={
                 <PrivateRoute>
                   <Queue />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/add-songs"
+              element={
+                <PrivateRoute>
+                  <AddSongsPage />
                 </PrivateRoute>
               }
             />
@@ -109,7 +118,6 @@ function VideoPlayerWrapper() {
         videoIndex={videoIndex}
         selectedTag={selectedTag}
       />
-      
     </>
   );
 }

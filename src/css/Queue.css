@@ -42,8 +42,8 @@
 
 .video-row-first-column p {
   color: gray;
-}
 
+}
 
 .video-row-button {
   padding: 15px;
@@ -67,10 +67,12 @@
     
 }
 
+
 .video-row-first-column {
   display: flex;
   align-items: center;
   gap: 10px;
+  width: 80%;
 }
 
 .video-row-first-column strong {

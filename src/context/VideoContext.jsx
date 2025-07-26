@@ -13,7 +13,10 @@ export function VideoProvider({ children }) {
   });
   const [videoIndex, setVideoIndex] = useState(0);
   const [selectedTag, setSelectedTag] = useState({});
-  const [videosListName, setVideosListName] = useState("");
+  const [videosListName, setVideosListName] = useState(()=>{
+    const storedVideosListName = localStorage.getItem("selectedVideosListName");
+    return storedVideosListName ? storedVideosListName: "";
+  });
   const [currentVideoId, setCurrentVideoId] = useState(null);
   const [playlistData, setPlayListData] = useState({});
   const [isArtistVideosList, setIsArtistVideosList] = useState(false);
@@ -22,9 +25,12 @@ export function VideoProvider({ children }) {
     if (selectedVideo && videosList) {
       localStorage.setItem("selectedVideo", JSON.stringify(selectedVideo));
       localStorage.setItem("selectedVideosList", JSON.stringify(videosList));
+      localStorage.setItem("selectedVideosListName", videosListName);
     } else {
       localStorage.removeItem("selectedVideo");
       localStorage.removeItem("selectedVideosList");
+      localStorage.removeItem("selectedVideosListName");
+      
     }
     if (selectedVideo !== null) {
       setCurrentVideoId(selectedVideo.videoId);

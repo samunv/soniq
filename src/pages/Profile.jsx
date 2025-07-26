@@ -13,7 +13,7 @@ import { MdEdit } from "react-icons/md";
 import ColorThief from "color-thief-browser";
 
 import { MdLogout } from "react-icons/md";
-import { FastAverageColor } from 'fast-average-color';
+import { FastAverageColor } from "fast-average-color";
 
 export default function Profile() {
   const userDataString = localStorage.getItem("user");
@@ -147,11 +147,14 @@ export default function Profile() {
               crossOrigin="anonymous"
             />
             <div className="user-info">
+              <p style={{ fontSize: "16px", marginBottom: "10px", color:"white" }}>
+                Contribution points:{" "}
+                {userData.contributions ? userData.contributions : 0}
+              </p>
               <h1>{userData.username}</h1>
-              <p style={{color:"white"}}>{userData.email}</p>
+              <p style={{ color: "white" }}>{userData.email}</p>
             </div>
           </div>
-
           <div className="buttons">
             <button
               className="btn-profile edit"

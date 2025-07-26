@@ -12,6 +12,7 @@
   align-items: center;
   gap: 20px;
   z-index: 400;
+  border: 1px solid rgb(36, 36, 36);
 }
 
 .modal-buttons {

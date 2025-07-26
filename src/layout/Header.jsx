@@ -33,7 +33,7 @@ export default function Header() {
       </div>
       <div className="Navigation">
         <NavLink
-          to=""
+          to="/add-songs"
           className={"add-songs-link"}
         >
           <IoIosAddCircle size={20} />

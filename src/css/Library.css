@@ -2,7 +2,6 @@
   position: fixed;
   width: calc(250px - 60px);
   padding: 30px;
-  background-color: black;
   border-right: 1px rgb(58, 58, 58) solid;
   height: calc(100vh - 90px);
   top: 70px;

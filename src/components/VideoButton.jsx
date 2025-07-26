@@ -9,7 +9,6 @@ export default function VideoButton({
   onClick,
   selectedVideoId,
 }) {
-
   return (
     <div
       className={selectedVideoId === videoId ? "video playing" : "video"}
@@ -28,7 +27,7 @@ export default function VideoButton({
         {selectedVideoId === videoId ? (
           <div className="loader"></div>
         ) : (
-          <FaPlayCircle size={25} />
+          <FaPlayCircle size={22} />
         )}
       </div>
     </div>

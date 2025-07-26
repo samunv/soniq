@@ -63,7 +63,8 @@ export default function Player({
     console.log("PLAYER > VideosList:", videosListForPlay);
     console.log("VideoIndex Player>> :", videoIndex);
     console.log("VideoListLenght: ", videosListForPlay.length);
-  }, [videosListForPlay, videoIndex]);
+    setPlaying(true);
+  }, [videosListForPlay, videoIndex, setPlaying]);
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -87,6 +88,20 @@ export default function Player({
   //     setIsLiked(true);
   //   }
   // }, [likedSongsArray]);
+
+ useEffect(() => {
+  let interval;
+  if (playing) {
+    interval = setInterval(() => {
+      const time = playerRef.current?.getCurrentTime;
+
+      if (typeof time === 'number') {
+        setCurrentTime(time);
+      }
+    }, 500);
+  }
+  return () => clearInterval(interval);
+}, [playing]);
 
   useEffect(() => {
     const liked = userData?.likedSongs?.includes(videoId);
@@ -115,16 +130,22 @@ export default function Player({
     },
   };
 
+  // const onReady = (event) => {
+  //   event.target.setVolume(volume);
+  //   playerRef.current = event.target;
+  //   setDuration(event.target.getDuration());
+  //   setInterval(() => {
+  //     if (playerRef.current && playerRef.current.getCurrentTime) {
+  //       setCurrentTime(playerRef.current.getCurrentTime());
+  //     }
+  //   }, 1000);
+  // };
+
   const onReady = (event) => {
-    event.target.setVolume(volume);
-    playerRef.current = event.target;
-    setDuration(event.target.getDuration());
-    setInterval(() => {
-      if (playerRef.current && playerRef.current.getCurrentTime) {
-        setCurrentTime(playerRef.current.getCurrentTime());
-      }
-    }, 1000);
-  };
+  event.target.setVolume(volume);
+  playerRef.current = event.target;
+  setDuration(event.target.getDuration());
+};
 
   const playVideo = () => {
     setPlaying(true);
@@ -274,7 +295,8 @@ export default function Player({
                 const filteredArtistVideoList = videos.filter(
                   (video) =>
                     video.artist === artist ||
-                    video.title.toLowerCase().includes(artist.toLowerCase())
+                    video.title.toLowerCase().includes(artist.toLowerCase()) || 
+                    video.tags.some(tag => tag.toLowerCase() === artist.toLowerCase())
                 );
                 setIsArtistVideosList(true);
                 setVideosList(filteredArtistVideoList);
@@ -302,25 +324,27 @@ export default function Player({
               onClick={handleRandomPlaying}
             >
               <path d="M560-160v-80h104L537-367l57-57 126 126v-102h80v240H560Zm-344 0-56-56 504-504H560v-80h240v240h-80v-104L216-160Zm151-377L160-744l56-56 207 207-56 56Z" />
+              <title>Turn on shuffle</title>
             </svg>
 
             <IoPlaySkipBackSharp
               size={20}
               onClick={prevVideo}
               className="prev-next-buttons"
+              title="Previous"
             />
             <div className="playing-pause-btns">
-              {" "}
               {playing ? (
-                <FaCirclePause size={32} onClick={pauseVideo} />
+                <FaCirclePause size={32} onClick={pauseVideo} title="Pause"/>
               ) : (
-                <FaPlayCircle size={32} onClick={playVideo} />
+                <FaPlayCircle size={32} onClick={playVideo} title="Play"/>
               )}
             </div>
             <IoPlaySkipForwardSharp
               size={20}
               onClick={nextVideo}
               className="prev-next-buttons"
+              title="Next"
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -334,6 +358,7 @@ export default function Player({
               onClick={handleRepeatVideo}
             >
               <path d="M280-80 120-240l160-160 56 58-62 62h406v-160h80v240H274l62 62-56 58Zm-80-440v-240h486l-62-62 56-58 160 160-160 160-56-58 62-62H280v160h-80Z" />
+            <title>Activate repeat</title>
             </svg>
           </div>
 
@@ -365,7 +390,7 @@ export default function Player({
             </li>
 
             {videosListForPlay.length > 0 ? (
-              <li onClick={() => setArtView(false)}>
+              <li onClick={() => setArtView(false)} title="View in Queue">
                 <NavLink
                   to={"/queue"}
                   className={({ isActive }) =>
@@ -387,7 +412,7 @@ export default function Player({
               ""
             )}
 
-            <li onClick={handleArtView}>
+            <li onClick={handleArtView} title={artView ? "Quit Inmersive View": "Inmersive View"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="25px"
@@ -399,7 +424,7 @@ export default function Player({
                 <path d="m480-420 240-160-240-160v320Zm28 220h224q-7 26-24 42t-44 20L228-85q-33 5-59.5-15.5T138-154L85-591q-4-33 16-59t53-30l46-6v80l-36 5 54 437 290-36Zm-148-80q-33 0-56.5-23.5T280-360v-440q0-33 23.5-56.5T360-880h440q33 0 56.5 23.5T880-800v440q0 33-23.5 56.5T800-280H360Zm0-80h440v-440H360v440Zm220-220ZM218-164Z" />
               </svg>
             </li>
-            <li>
+            <li title="Volume Control">
               {volume === 0 ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
