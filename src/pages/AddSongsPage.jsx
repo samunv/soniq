@@ -15,15 +15,27 @@ import {
 } from "firebase/firestore";
 
 export default function AddSongsPage() {
-  const [songName, setSongName] = useState("");
-  const [artistName, setArtistName] = useState("");
   const [youtubeURL, setYoutubeURL] = useState("");
   const [tags, setTags] = useState("");
-  const [videoId, setVideoId] = useState("");
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const userDataString = localStorage.getItem("user");
   const userData = userDataString ? JSON.parse(userDataString) : null;
+
+  function getVideoData(videoId) {
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=AIzaSyCtuMnr3LUSgrCW6hQKuE9XNBa_o9XawNM`;
+
+    return fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        const video = data.items[0];
+        if (!video) throw new Error("Video no encontrado");
+        return {
+          title: video.snippet.title,
+          artist: video.snippet.channelTitle,
+        };
+      });
+  }
 
   async function handleCreateSong() {
     const extractedVideoId = getYouTubeVideoId(youtubeURL);
@@ -48,12 +60,21 @@ export default function AddSongsPage() {
         return;
       }
 
+      const videoData = await getVideoData(extractedVideoId);
+
+      if (!videoData.title || !videoData.artist) {
+        setIsError(true);
+        setErrorMessage("Error fetching video data. Please try again.");
+        return;
+      }
+
       await addDoc(collection(db, "videos"), {
-        title: songName,
-        artist: artistName,
+        title: videoData.title,
+        artist: videoData.artist,
         videoId: extractedVideoId,
         tags: tags.split(",").map((tag) => tag.trim()),
         uploadedAt: new Date(),
+        uploadedBy: userData?.username || "anonymous",
       });
 
       const userRef = doc(db, "users", userData?.uid);
@@ -62,7 +83,6 @@ export default function AddSongsPage() {
       });
 
       console.log("Video agregado correctamente.");
-      window.location.href = "/home";
     } catch (error) {
       console.error("Error al agregar el video: ", error);
     }
@@ -88,36 +108,11 @@ export default function AddSongsPage() {
                 width: "400px",
               }}
             >
-              Add your songs and let others play them!
+              Contribute to our community, add songs!
             </h3>
           </div>
+          
           <div className="form-add-songs">
-            <div className="form-group">
-              <label htmlFor="title">Song Name or title</label>
-              <input
-                type="text"
-                required
-                id="title"
-                value={songName}
-                onChange={(e) => setSongName(e.target.value)}
-                minLength={3}
-                maxLength={50}
-              />
-            </div>
-
-            <div className="form-group">
-              {" "}
-              <label htmlFor="artist">Artist or Author Name</label>
-              <input
-                type="text"
-                required
-                id="artist"
-                value={artistName}
-                onChange={(e) => setArtistName(e.target.value)}
-                minLength={3}
-                maxLength={30}
-              />
-            </div>
             <div className="form-group">
               {" "}
               <label htmlFor="url">YouTube Video URL</label>
@@ -150,9 +145,9 @@ export default function AddSongsPage() {
               <p style={{ color: "red" }}>{errorMessage}</p>
             </div>
           )}
-          {songName && artistName && youtubeURL && tags ? (
+          {youtubeURL && tags ? (
             <button onClick={handleCreateSong} className="btn-add">
-              Add this song (+ 30 contribution points)
+              Add this song (+30 contribution points)
             </button>
           ) : (
             ""
@@ -162,3 +157,5 @@ export default function AddSongsPage() {
     </div>
   );
 }
+
+//AIzaSyCtuMnr3LUSgrCW6hQKuE9XNBa_o9XawNM
