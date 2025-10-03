@@ -8,8 +8,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function Library() {
-  const { setVideosList, setVideoIndex, setSelectedVideo, setVideosListName, setIsArtistVideosList } =
-    useVideo();
+  const {
+    setVideosList,
+    setVideoIndex,
+    setSelectedVideo,
+    setVideosListName,
+    setIsArtistVideosList,
+  } = useVideo();
   const userDataString = localStorage.getItem("user");
   const userData = userDataString ? JSON.parse(userDataString) : null;
   const userLikedSongs = userData.likedSongs;
@@ -64,12 +69,15 @@ export default function Library() {
   }, []);
 
   return (
-    <div className="Library">
-      <h2>
-        Playlists
-      </h2>
+    <div className="Library library-desktop">
+      <h2>Playlists</h2>
       <div className="LibraryColumn">
-        <div className="PlaylistContainer">
+        <div
+          className="PlaylistContainer"
+          onClick={() => {
+            alert("This feature is not implemented yet.");
+          }}
+        >
           <div className="Square">
             <IoMdAdd size={30} />
           </div>
@@ -99,9 +107,7 @@ export default function Library() {
                 {userLikedSongsVideosList.length} songs
               </p>
             ) : (
-               <p style={{ color: "gray" }}>
-                No songs liked yet
-              </p>
+             ""
             )}
           </div>
         </div>

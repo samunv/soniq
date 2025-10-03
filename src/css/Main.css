@@ -12,3 +12,17 @@
   padding-inline: 40px;
 
 } 
+
+
+@media (max-width: 800px) {
+  .Main {
+    width: calc(100vw - 40px);
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .Main-Right {
+    width: 100%;
+    padding-inline: 0px;
+  }
+}

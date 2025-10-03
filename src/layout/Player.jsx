@@ -10,6 +10,8 @@ import { FaRandom } from "react-icons/fa";
 import { FaRepeat } from "react-icons/fa6";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { NavLink, useNavigate } from "react-router";
+import { IoMdMore } from "react-icons/io";
+
 // import { useNavigate, useLocation } from "react-router";ç
 import { db } from "../firebase";
 import {
@@ -89,19 +91,19 @@ export default function Player({
   //   }
   // }, [likedSongsArray]);
 
- useEffect(() => {
-  let interval;
-  if (playing) {
-    interval = setInterval(() => {
-      const time = playerRef.current?.getCurrentTime?.();
+  useEffect(() => {
+    let interval;
+    if (playing) {
+      interval = setInterval(() => {
+        const time = playerRef.current?.getCurrentTime?.();
 
-      if (typeof time === 'number') {
-        setCurrentTime(time);
-      }
-    }, 500);
-  }
-  return () => clearInterval(interval);
-}, [playing]);
+        if (typeof time === "number") {
+          setCurrentTime(time);
+        }
+      }, 500);
+    }
+    return () => clearInterval(interval);
+  }, [playing]);
 
   useEffect(() => {
     const liked = userData?.likedSongs?.includes(videoId);
@@ -142,10 +144,10 @@ export default function Player({
   // };
 
   const onReady = (event) => {
-  event.target.setVolume(volume);
-  playerRef.current = event.target;
-  setDuration(event.target.getDuration());
-};
+    event.target.setVolume(volume);
+    playerRef.current = event.target;
+    setDuration(event.target.getDuration());
+  };
 
   const playVideo = () => {
     setPlaying(true);
@@ -295,8 +297,10 @@ export default function Player({
                 const filteredArtistVideoList = videos.filter(
                   (video) =>
                     video.artist === artist ||
-                    video.title.toLowerCase().includes(artist.toLowerCase()) || 
-                    video.tags.some(tag => tag.toLowerCase() === artist.toLowerCase())
+                    video.title.toLowerCase().includes(artist.toLowerCase()) ||
+                    video.tags.some(
+                      (tag) => tag.toLowerCase() === artist.toLowerCase()
+                    )
                 );
                 setIsArtistVideosList(true);
                 setVideosList(filteredArtistVideoList);
@@ -335,9 +339,9 @@ export default function Player({
             />
             <div className="playing-pause-btns">
               {playing ? (
-                <FaCirclePause size={32} onClick={pauseVideo} title="Pause"/>
+                <FaCirclePause size={32} onClick={pauseVideo} title="Pause" />
               ) : (
-                <FaPlayCircle size={32} onClick={playVideo} title="Play"/>
+                <FaPlayCircle size={32} onClick={playVideo} title="Play" />
               )}
             </div>
             <IoPlaySkipForwardSharp
@@ -358,7 +362,7 @@ export default function Player({
               onClick={handleRepeatVideo}
             >
               <path d="M280-80 120-240l160-160 56 58-62 62h406v-160h80v240H274l62 62-56 58Zm-80-440v-240h486l-62-62 56-58 160 160-160 160-56-58 62-62H280v160h-80Z" />
-            <title>Activate repeat</title>
+              <title>Activate repeat</title>
             </svg>
           </div>
 
@@ -412,7 +416,10 @@ export default function Player({
               ""
             )}
 
-            <li onClick={handleArtView} title={artView ? "Quit Inmersive View": "Inmersive View"}>
+            <li
+              onClick={handleArtView}
+              title={artView ? "Quit Inmersive View" : "Inmersive View"}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="25px"
@@ -470,6 +477,21 @@ export default function Player({
               />
             </li>
           </ul>
+        </div>
+
+        <div className="mobile-controller">
+          {playing ? (
+            <FaCirclePause size={32} onClick={pauseVideo} title="Pause" />
+          ) : (
+            <FaPlayCircle size={32} onClick={playVideo} title="Play" />
+          )}
+
+          <IoPlaySkipForwardSharp
+            size={20}
+            onClick={nextVideo}
+            className="prev-next-buttons"
+            title="Next"
+          />
         </div>
       </div>
     </div>

@@ -8,7 +8,7 @@ export default function Main({ children, style }) {
       <div className="Main-Right" style={style}>
         {children}
       </div>
-      <Library />
+      <Library className={"library-desktop"}/>
     </div>
   );
 }

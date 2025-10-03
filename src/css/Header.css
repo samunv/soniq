@@ -84,3 +84,19 @@
   color: black;
   background-color: white;
 }
+
+
+@media (max-width: 800px) {
+  .Header {
+    width: calc(100% - 40px);
+    padding-inline: 20px;
+  }
+
+  .Header-logo h1 {
+    font-size: 30px;
+  }
+
+  .add-songs-link{
+    display: none;
+  }
+}

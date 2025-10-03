@@ -42,3 +42,11 @@
 .PlaylistContainer.likedSongs .Square{
     background-color: #8d8bff;
 }
+
+
+@media (max-width: 800px) {
+  .Library {
+    display: none;
+  }
+
+}

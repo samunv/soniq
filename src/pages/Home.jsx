@@ -109,7 +109,7 @@ export default function Home() {
                       video.tags?.some((t) => t === tag.name)
                     );
                     const randomVideosListofTag =
-                      shuffleArray(filteredTagVideoList);
+                    shuffleArray(filteredTagVideoList);
                     setVideosList(randomVideosListofTag);
                     setSelectedVideo(randomVideosListofTag[0]);
                     setSelectedTag({ tagName: tag.name, tagColor: tag.color });

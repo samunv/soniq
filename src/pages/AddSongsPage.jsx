@@ -74,7 +74,7 @@ export default function AddSongsPage() {
         videoId: extractedVideoId,
         tags: tags.split(",").map((tag) => tag.trim()),
         uploadedAt: new Date(),
-        uploadedBy: userData?.username || "anonymous",
+        uploadedBy: userData?.uid || "anonymous",
       });
 
       const userRef = doc(db, "users", userData?.uid);
@@ -82,9 +82,10 @@ export default function AddSongsPage() {
         contributions: (userData?.contributions || 0) + 30,
       });
 
-      console.log("Video agregado correctamente.");
+      alert("Video uploaded successfully!");
+      window.location.reload();
     } catch (error) {
-      console.error("Error al agregar el video: ", error);
+      console.error("Error: ", error);
     }
   }
 
@@ -111,7 +112,7 @@ export default function AddSongsPage() {
               Contribute to our community, add songs!
             </h3>
           </div>
-          
+
           <div className="form-add-songs">
             <div className="form-group">
               {" "}
@@ -124,6 +125,9 @@ export default function AddSongsPage() {
                 value={youtubeURL}
                 onChange={(e) => setYoutubeURL(e.target.value)}
               />
+              <p style={{ fontSize: "14px", color: "#666" }}>
+                Type de YouTube URL and automatically fetch the song's data.
+              </p>
             </div>
             <div className="form-group">
               <label htmlFor="tags">Tags</label>
@@ -132,7 +136,6 @@ export default function AddSongsPage() {
                 name="tags"
                 placeholder="Type tags separated by commas (e.g., Chill, Party)"
                 aria-label="Song tags"
-                required
                 id="tags"
                 value={tags}
                 onChange={(e) => setTags(e.target.value)}
@@ -145,7 +148,7 @@ export default function AddSongsPage() {
               <p style={{ color: "red" }}>{errorMessage}</p>
             </div>
           )}
-          {youtubeURL && tags ? (
+          {youtubeURL ? (
             <button onClick={handleCreateSong} className="btn-add">
               Add this song (+30 contribution points)
             </button>
